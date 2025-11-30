@@ -95,6 +95,11 @@ body{
 /* responsive */
 @media (max-width:900px){.area{grid-template-columns:1fr}.results-grid{grid-template-columns:1fr 1fr}}
 @media (max-width:520px){.inputs-grid{grid-template-columns:1fr}.title{font-size:20px}}
+
+html, body {
+  overflow:hidden;
+}
+
 </style>
 </head>
 <body>
@@ -106,7 +111,7 @@ body{
     <div class="header">
       <div>
         <div class="title"><span class="dash"></span> SCRAP CALC</div>
-        <div class="subtitle">Calcula el coste real del scrap — Neon Tech Premium</div>
+        <div class="subtitle">Calcula el coste real del scrap</div>
       </div>
       <div style="font-size:12px;color:var(--muted);font-weight:700;align-self:center">inyec.pro</div>
     </div>
@@ -152,10 +157,7 @@ body{
           </div>
           <div class="consent">
             <input id="consent" type="checkbox" />
-            <div>Acepto que mi correo se incluya en la lista de correo de inyec.pro y recibir comunicaciones relacionadas. Puedo darme de baja en cualquier momento.</div>
-          </div>
-          <div class="download">
-            <button class="btn ghost" id="downloadBtn" style="display:none">Descargar CSV</button>
+            <div>Acepto que mi correo se incluya en la lista de correo de inyec.pro</div>
           </div>
         </div>
       </div>
@@ -170,9 +172,6 @@ body{
           <div class="result" id="resM"><div class="label">€/Mes (30d)</div><div class="value glitch" id="vMonth" data-text="—">—</div></div>
           <div class="result" id="resY"><div class="label">€/Año</div><div class="value glitch" id="vYear" data-text="—">—</div></div>
         </div>
-
-        <div style="margin-top:12px" class="small">Pulsa <strong>Calcular</strong> para ver estimación (bloqueada). Introduce email y acepta para desbloquear.</div>
-      </div>
 
     </div>
   </div>
@@ -328,24 +327,8 @@ unlockBtn.addEventListener('click', async () => {
 
   // finally unlock and animate counters
   unlockValues();
-  downloadBtn.style.display = "inline-block";
 });
 
-/* download CSV */
-downloadBtn.addEventListener('click', ()=>{
-  if(!computed) return;
-  const rows = [
-    ["Métrica","Valor (€)"],
-    ["Coste / Hora", computed.costHour.toFixed(2)],
-    ["Coste / Día (24h)", computed.costDay.toFixed(2)],
-    ["Coste / Mes (30d)", computed.costMonth.toFixed(2)],
-    ["Coste / Año", computed.costYear.toFixed(2)]
-  ];
-  const csv = rows.map(r=>r.join(",")).join("\n");
-  const blob = new Blob([csv], { type: "text/csv" });
-  const url = URL.createObjectURL(blob);
-  const a = document.createElement("a"); a.href = url; a.download = "informe_scrap.csv"; document.body.appendChild(a); a.click(); a.remove();
-});
 
 /* keyboard accessibility */
 document.addEventListener('keydown', (e)=>{
