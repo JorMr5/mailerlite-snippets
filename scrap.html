@@ -176,6 +176,25 @@ body{
 .label{font-size:13px;color:var(--muted);font-weight:700}
 .value{font-size:26px;font-weight:800;color:var(--text);margin-top:8px}
 
+  /* --- LOCKED VISUAL: blur + layer --- */
+.results-locked .value {
+  filter: blur(6px) grayscale(.25);
+  opacity: 0.65;
+  transition: filter .35s ease, opacity .35s ease, transform .25s;
+  transform: translateZ(0);
+}
+
+/* mantener data-text para glitch visual */
+.value[data-text] { position: relative; }
+
+/* cuando se desbloquea (removemos clase results-locked) */
+.results-unlocked .value{
+  filter: none;
+  opacity: 1;
+  transition: filter .4s ease 0s, opacity .3s ease 0s;
+}
+
+  
 /* glitch effect for locked values */
 .glitch{
   position:relative;
@@ -368,12 +387,20 @@ function computeValues(){
   return {costHour, costDay, costMonth, costYear};
 }
 
-/* show locked glitch */
+/* show locked: pinta valores pero deja BLOQUEADOS (blur + glitch) */
 function showLocked(vals){
   if(!vals) return;
+  // añade clase locked al contenedor de resultados
+  const resultsCard = document.querySelector('.card[aria-labelledby="resultsTitle"]');
+  if(resultsCard){
+    resultsCard.classList.add('results-locked');
+    resultsCard.classList.remove('results-unlocked');
+  }
+
   const show = (el,val) => {
     el.setAttribute("data-text", fmt(val));
     el.textContent = fmt(val);
+    // aplicar glitch class para efecto "censurado"
     el.classList.add("glitch");
   };
   show(vHour, vals.costHour);
@@ -382,14 +409,20 @@ function showLocked(vals){
   show(vYear, vals.costYear);
 }
 
-/* unlock animation */
+/* unlock: elimina blur y anima contadores */
 function unlockValues(){
-  const animate = (el,end) => {
-    el.classList.remove("glitch");
-    el.parentElement.classList.add("unlocked");
+  if(!computed) return;
+  const resultsCard = document.querySelector('.card[aria-labelledby="resultsTitle"]');
+  if(resultsCard){
+    resultsCard.classList.remove('results-locked');
+    resultsCard.classList.add('results-unlocked');
+  }
 
+  const animate = (el,end) => {
+    // quitar glitch antes de animar para que el número quede limpio
+    el.classList.remove("glitch");
     let start = 0;
-    const steps = 30;
+    const steps = 36;
     let c = 0;
     const timer = setInterval(()=>{
       c++;
@@ -398,7 +431,7 @@ function unlockValues(){
       const v = start + (end - start)*eased;
       el.textContent = fmt(v);
       if(c>=steps){ clearInterval(timer); el.textContent = fmt(end); }
-    },25);
+    },20);
   };
 
   animate(vHour, computed.costHour);
@@ -406,6 +439,7 @@ function unlockValues(){
   animate(vMonth, computed.costMonth);
   animate(vYear, computed.costYear);
 }
+
 
 calcBtn.onclick = ()=>{
   const vals = computeValues();
@@ -442,16 +476,17 @@ unlockBtn.onclick = async ()=>{
       headers:{"Content-Type":"application/json"},
       body:JSON.stringify({email:mail,source:"calculadora_scrap"})
     });
-  }catch(e){}
+  }catch(e){ /* no bloqueamos UX */ }
 
   setTimeout(()=>{
     unlockBtn.disabled = false;
     unlockBtn.textContent = "Desbloquear";
+    // finalmente desbloquea y anima
+    unlockValues();
+    downloadBtn.style.display="inline-block";
   },700);
-
-  unlockValues();
-  downloadBtn.style.display="inline-block";
 };
+
 
 downloadBtn.onclick = ()=>{
   if(!computed) return;
