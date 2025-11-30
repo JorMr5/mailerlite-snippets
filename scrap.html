@@ -3,491 +3,446 @@
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width,initial-scale=1" />
-<title>Calculadora Premium de Coste de Scrap — inyec.pro</title>
+<title>Calculadora Premium - Coste de Scrap</title>
 
-<!-- Google font -->
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
-
-<!-- Chart.js -->
-<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
 
 <style>
-  :root{
-    --bg:#000000;
-    --card:#070808;
-    --muted:#9fbfb9;
-    --accent:#5cbcae;
-    --glass: rgba(255,255,255,0.03);
-    --glass-2: rgba(92,188,174,0.06);
-    --text:#eaf6f2;
-  }
-  *{box-sizing:border-box}
-  html,body{height:100%}
-  body{
-    margin:0;
-    min-height:100%;
-    background:var(--bg);
-    font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,"Helvetica Neue",Arial;
-    color:var(--text);
-    -webkit-font-smoothing:antialiased;
-    -moz-osx-font-smoothing:grayscale;
-    padding:20px;
-    display:flex;
-    align-items:center;
-    justify-content:center;
-  }
+:root{
+  --bg:#000000;
+  --accent:#5cbcae;
+  --muted:#8fbfb2;
+  --glass: rgba(255,255,255,0.03);
+  --block:#071015;
+  --card-border: rgba(92,188,174,0.12);
+  --text:#e6f7f2;
+}
+*{box-sizing:border-box}
+html,body{height:100%}
+body{
+  margin:0;
+  background:var(--bg);
+  font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,"Helvetica Neue",Arial;
+  color:var(--text);
+  -webkit-font-smoothing:antialiased;
+  -moz-osx-font-smoothing:grayscale;
+  padding:26px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+}
 
-  /* Container */
-  .wrap{
-    width:100%;
-    max-width:1100px;
-    margin:auto;
-  }
+/* subtle grid lines background for neon HUD */
+.bg-grid{
+  position:fixed;inset:0;pointer-events:none;z-index:0;
+  background-image:
+    linear-gradient(rgba(255,255,255,0.01) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255,255,255,0.01) 1px, transparent 1px);
+  background-size: 44px 44px, 44px 44px;
+  opacity:0.06;
+}
 
-  /* Card */
-  .card{
-    background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(0,0,0,0.06));
-    border: 1px solid rgba(255,255,255,0.02);
-    border-radius:14px;
-    padding:20px;
-    box-shadow: 0 12px 30px rgba(2,6,8,0.7);
-    display:grid;
-    grid-template-columns: 1fr 420px;
-    gap:18px;
-    align-items:start;
-  }
+/* Main container */
+.wrap{
+  width:100%;
+  max-width:980px;
+  z-index:1;
+}
+.shell{
+  border-radius:14px;
+  padding:20px;
+  background: linear-gradient(180deg, rgba(255,255,255,0.012), rgba(0,0,0,0.06));
+  border:1px solid rgba(255,255,255,0.02);
+  box-shadow: 0 20px 50px rgba(0,0,0,0.7);
+  display:grid;
+  grid-template-columns: 1fr;
+  gap:18px;
+  position:relative;
+  overflow:hidden;
+}
 
-  /* Left area (form + results) */
-  .left{
-    min-width:0;
-  }
+/* Neon accents top */
+.header{
+  display:flex;
+  justify-content:space-between;
+  align-items:flex-start;
+  gap:12px;
+}
+.title{
+  font-weight:800;
+  color:var(--accent);
+  font-size:22px;
+  letter-spacing:0.6px;
+  font-family: "Space Mono", monospace;
+  display:flex;
+  align-items:center;
+  gap:12px;
+}
+.title .dash{
+  width:40px;height:2px;background:linear-gradient(90deg, rgba(92,188,174,0.9), rgba(92,188,174,0.35));
+  box-shadow:0 0 18px rgba(92,188,174,0.12), 0 0 60px rgba(92,188,174,0.02) inset;
+  transform:translateY(2px);
+}
+.subtitle{color:var(--muted);font-size:13px;margin-top:4px}
 
-  .header{
-    display:flex;
-    align-items:center;
-    gap:12px;
-    margin-bottom:8px;
-  }
-  .title{
-    font-size:18px;
-    font-weight:800;
-    color:var(--accent);
-    margin:0;
-  }
-  .subtitle{font-size:13px;color:var(--muted);margin-top:4px}
+/* Main area: two cards (inputs + results) */
+.area{
+  display:grid;
+  grid-template-columns: 1fr 1fr;
+  gap:18px;
+}
 
-  /* Inputs grid */
-  .inputs{
-    display:grid;
-    grid-template-columns: repeat(2,1fr);
-    gap:12px;
-    margin-top:14px;
-  }
+/* Card base */
+.card{
+  background: linear-gradient(180deg, rgba(255,255,255,0.01), rgba(0,0,0,0.02));
+  border-radius:12px;
+  padding:16px;
+  border:1px solid rgba(255,255,255,0.02);
+  position:relative;
+  overflow:hidden;
+}
 
-  .field{
-    display:flex;
-    flex-direction:column;
-    gap:8px;
-    background: linear-gradient(180deg, rgba(255,255,255,0.01), rgba(0,0,0,0.02));
-    border-radius:10px;
-    padding:10px;
-    border:1px solid rgba(255,255,255,0.02);
-  }
+/* Left - Inputs */
+.inputs-grid{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:12px;
+}
+.field{
+  background: linear-gradient(180deg, rgba(255,255,255,0.01), rgba(0,0,0,0.02));
+  border-radius:10px;
+  padding:12px;
+  border:1px solid rgba(255,255,255,0.02);
+  position:relative;
+  box-shadow: 0 6px 18px rgba(0,0,0,0.6) inset;
+}
+.field label{
+  font-size:13px;color:var(--muted);font-weight:700;margin-bottom:8px;display:block;
+}
+.field input{
+  background:#020404;color:var(--text);border:1px solid rgba(255,255,255,0.03);
+  padding:12px;border-radius:8px;font-size:17px;
+  box-shadow:0 6px 18px rgba(92,188,174,0.02) inset;
+  transition: box-shadow .18s, transform .12s;
+  width:100%;
+}
 
-  label{
-    font-size:12px;
-    font-weight:700;
-    color:var(--muted);
-  }
+/* Terminal-Tech feel: focus glow */
+.field input:focus{
+  outline:none;
+  box-shadow: 0 0 24px rgba(92,188,174,0.18), 0 6px 18px rgba(92,188,174,0.04) inset;
+  transform: translateY(-1px);
+}
 
-  input[type="number"], input[type="email"]{
-    padding:10px 12px;
-    border-radius:8px;
-    border:1px solid rgba(255,255,255,0.04);
-    background:#0b0b0b;
-    color:var(--text);
-    font-size:15px;
-  }
-  input::placeholder{color:#6b746f}
+/* Buttons */
+.actions{display:flex;gap:12px;margin-top:12px}
+.btn{
+  background:var(--accent);color:#021916;border:0;padding:12px 14px;border-radius:10px;font-weight:800;font-size:15px;cursor:pointer;
+  box-shadow: 0 10px 30px rgba(92,188,174,0.06);
+}
+.btn.ghost{background:transparent;color:var(--muted);border:1px solid rgba(255,255,255,0.02)}
 
-  .hint{font-size:12px;color:#9fbfb9;margin-top:6px}
+/* Right - Results (cyber blocks) */
+.results-grid{display:grid;grid-template-columns:repeat(1,1fr);gap:12px}
+.result{
+  background: linear-gradient(180deg, rgba(10,16,18,0.6), rgba(7,11,12,0.4));
+  border-radius:10px;padding:14px;border:1px solid var(--card-border);
+  position:relative;overflow:hidden;min-height:78px;
+  box-shadow: 0 8px 28px rgba(0,0,0,0.6);
+}
+.result .label{font-size:13px;color:var(--muted);font-weight:700}
+.result .value{font-size:24px;font-weight:800;color:var(--text);margin-top:8px}
 
-  .actions{
-    display:flex;
-    gap:10px;
-    margin-top:14px;
-    align-items:center;
-  }
-  .btn{
-    background:var(--accent);
-    color:#03211f;
-    padding:11px 14px;
-    border-radius:10px;
-    border:0;
-    font-weight:800;
-    cursor:pointer;
-    font-size:15px;
-    box-shadow:0 8px 20px rgba(92,188,174,0.06);
-  }
-  .btn.ghost{
-    background:transparent;
-    color:var(--muted);
-    border:1px solid rgba(255,255,255,0.02);
-  }
+/* cyber detail lines */
+.result:before, .result:after{
+  content:"";position:absolute;inset:0;border-radius:10px;pointer-events:none;
+}
+.result:before{
+  background: linear-gradient(90deg, rgba(92,188,174,0.03), transparent 20%, transparent 80%, rgba(92,188,174,0.02));
+  mix-blend-mode: overlay; opacity:0.7;
+}
+.result:after{
+  background-image: linear-gradient(0deg, rgba(255,255,255,0.01) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.01) 1px, transparent 1px);
+  background-size: 40px 40px, 40px 40px;
+  opacity:0.03;
+}
 
-  /* Results area */
-  .results{
-    margin-top:16px;
-    display:grid;
-    grid-template-columns:repeat(2,1fr);
-    gap:12px;
-  }
+/* Light sweep diagonal (animation) */
+.sweep{
+  position:absolute;inset:-40%  -40% -40% -40%;
+  transform:rotate(-18deg);
+  background: linear-gradient(90deg, rgba(255,255,255,0) 0%, rgba(255,255,255,0.04) 45%, rgba(255,255,255,0) 100%);
+  mix-blend-mode: screen;
+  animation: sweep 3.8s linear infinite;
+  opacity:0.7;
+}
+@keyframes sweep{
+  0%{ transform: translateX(-110%) rotate(-18deg); }
+  50%{ transform: translateX(110%) rotate(-18deg); }
+  100%{ transform: translateX(320%) rotate(-18deg); }
+}
 
-  .res-card{
-    background: linear-gradient(180deg, rgba(255,255,255,0.01), rgba(0,0,0,0.02));
-    border-radius:10px;
-    padding:12px;
-    border:1px solid rgba(255,255,255,0.02);
-    min-height:82px;
-    position:relative;
-    overflow:hidden;
-  }
-  .res-label{font-size:12px;color:var(--muted)}
-  .res-value{
-    font-size:20px;
-    font-weight:800;
-    margin-top:8px;
-    color:var(--text);
-    transition: filter .35s ease, transform .25s;
-    filter: blur(6px) grayscale(.2);
-  }
-  .res-value.unlocked{ filter:none; transform:none }
+/* glow pulse */
+@keyframes pulseGlow{
+  0%{ box-shadow: 0 6px 30px rgba(92,188,174,0.04); }
+  50%{ box-shadow: 0 10px 40px rgba(92,188,174,0.14); }
+  100%{ box-shadow: 0 6px 30px rgba(92,188,174,0.04); }
+}
 
-  /* Right column (chart + summary) */
-  .right{
-    display:flex;
-    flex-direction:column;
-    gap:12px;
-  }
-  .chart-card{
-    padding:12px;
-    border-radius:10px;
-    background:linear-gradient(180deg, rgba(255,255,255,0.01), rgba(0,0,0,0.03));
-    border:1px solid rgba(255,255,255,0.02);
-  }
-  canvas{ width:100% !important; height:220px !important; }
+/* large typography */
+.title { font-size:24px; }
+.field input { font-size:18px; padding:14px; }
+.result .value { font-size:26px; }
 
-  .summary{
-    padding:12px;
-    border-radius:10px;
-    background: linear-gradient(180deg, rgba(92,188,174,0.02), rgba(255,255,255,0.01));
-    border:1px solid rgba(92,188,174,0.06);
-    color:#eaf6f2;
-  }
-  .summary h4{ margin:0 0 8px 0; color:var(--accent); font-size:14px }
-  .summary p{ margin:0; font-size:13px; color:#dff0ec }
+/* email gate */
+.email-gate{
+  margin-top:12px;padding:12px;border-radius:10px;border:1px solid rgba(255,255,255,0.02);background:linear-gradient(180deg, rgba(255,255,255,0.01), rgba(0,0,0,0.02));
+}
+.email-row{display:flex;gap:10px;align-items:center}
+.email-row input{flex:1;padding:12px;border-radius:8px;border:1px solid rgba(255,255,255,0.03);background:#010202;color:var(--text);font-size:16px}
+.consent{display:flex;gap:10px;align-items:flex-start;margin-top:8px;color:var(--muted);font-size:13px}
+.download{margin-top:10px;display:flex;gap:10px}
 
-  /* Email gate */
-  .email-gate{
-    margin-top:12px;
-    display:flex;
-    flex-direction:column;
-    gap:8px;
-    padding:12px;
-    border-radius:10px;
-    background:linear-gradient(180deg, rgba(0,0,0,0.02), rgba(255,255,255,0.01));
-    border:1px solid rgba(255,255,255,0.02);
-  }
-  .checkbox{
-    display:flex;
-    gap:10px;
-    align-items:flex-start;
-    font-size:13px;
-    color:var(--muted);
-  }
-  .checkbox input{ margin-top:4px }
-
-  .small{ font-size:12px; color:var(--muted) }
-
-  /* Footer note */
-  .note{ margin-top:10px; font-size:12px; color:#93bfb2 }
-
-  /* Responsive */
-  @media (max-width:1000px){
-    .card{ grid-template-columns: 1fr; }
-    .right{ order:2 }
-  }
-  @media (max-width:520px){
-    .inputs{ grid-template-columns: 1fr; }
-    canvas{ height:180px !important; }
-  }
+/* responsive */
+@media (max-width:900px){
+  .area{grid-template-columns:1fr}
+  .results-grid{grid-template-columns:1fr 1fr}
+}
+@media (max-width:520px){
+  .inputs-grid{grid-template-columns:1fr}
+  .results-grid{grid-template-columns:1fr}
+  .title{font-size:20px}
+}
 </style>
 </head>
 <body>
-  <div class="wrap">
-    <div class="card" role="application" aria-label="Calculadora de coste de scrap">
-      <div class="left">
-        <div class="header" aria-hidden="false">
-          <div>
-            <h2 class="title">Calculadora de Coste de Scrap</h2>
-            <div class="subtitle">Rellena los datos y desbloquea el coste real. (Resultados en €)</div>
-          </div>
-        </div>
+<div class="bg-grid" aria-hidden="true"></div>
 
-        <!-- Inputs -->
-        <div class="inputs" role="region" aria-label="Entradas">
-          <div class="field">
-            <label for="input_pieces">Piezas / hora</label>
-            <input id="input_pieces" inputmode="numeric" type="number" min="0" aria-label="piezas por hora" placeholder="Ej. 120" />
-            <div class="hint small">Ciclos o piezas producidas por hora</div>
-          </div>
+<div class="wrap">
+  <div class="shell" role="application" aria-label="Calculadora de scrap premium">
+    <div class="header">
+      <div>
+        <div class="title"><span class="dash"></span> SCRAP CALC</div>
+        <div class="subtitle">Calcula el coste real del scrap — desbloquea cifras y reduce pérdidas</div>
+      </div>
+      <div style="font-size:12px;color:var(--muted);font-weight:700;align-self:center">inyec.pro</div>
+    </div>
 
-          <div class="field">
-            <label for="input_weight">Peso pieza (g)</label>
-            <input id="input_weight" inputmode="numeric" type="number" min="0" aria-label="peso de la pieza en gramos" placeholder="Ej. 34" />
-            <div class="hint small">Peso de una pieza en gramos</div>
-          </div>
+    <div class="area">
+      <!-- left card: inputs -->
+      <div class="card" aria-labelledby="inputsTitle">
+        <div id="inputsTitle" style="font-weight:800;font-size:15px;color:var(--accent);margin-bottom:10px">Entradas</div>
 
+        <div class="inputs-grid" role="region" aria-label="Entradas">
           <div class="field">
-            <label for="input_scrap">% Scrap</label>
-            <input id="input_scrap" inputmode="numeric" type="number" min="0" max="100" aria-label="porcentaje de scrap" placeholder="Ej. 2.5" />
-            <div class="hint small">Porcentaje de piezas defectuosas (0–100)</div>
+            <label for="pieces">Piezas / hora</label>
+            <input id="pieces" type="number" inputmode="numeric" min="0" placeholder="Ej. 120" aria-label="Piezas por hora">
           </div>
 
           <div class="field">
-            <label for="input_price">Precio €/kg (granza)</label>
-            <input id="input_price" inputmode="numeric" type="number" min="0" step="0.01" aria-label="precio por kilogramo" placeholder="Ej. 2.50" />
-            <div class="hint small">Precio de la granza en €/kg</div>
+            <label for="weight">Peso pieza (g)</label>
+            <input id="weight" type="number" inputmode="numeric" min="0" placeholder="Ej. 34" aria-label="Peso pieza en gramos">
+          </div>
+
+          <div class="field">
+            <label for="scrap"> % Scrap</label>
+            <input id="scrap" type="number" inputmode="numeric" min="0" max="100" step="0.01" placeholder="Ej. 2.5" aria-label="Porcentaje de scrap">
+          </div>
+
+          <div class="field">
+            <label for="price">Precio €/kg (granza)</label>
+            <input id="price" type="number" inputmode="numeric" min="0" step="0.01" placeholder="Ej. 2.50" aria-label="Precio euros por kilogramo">
           </div>
         </div>
 
-        <!-- actions -->
-        <div class="actions" role="group" aria-label="Acciones">
-          <button class="btn" id="calcBtn" title="Calcular">Calcular</button>
-          <button class="btn ghost" id="resetBtn" title="Resetear">Reset</button>
+        <div class="actions" role="group" aria-label="acciones">
+          <button class="btn" id="calc">Calcular</button>
+          <button class="btn ghost" id="reset">Reset</button>
         </div>
 
-        <!-- results cards (blurred until unlock) -->
-        <div class="results" aria-live="polite">
-          <div class="res-card" aria-hidden="false">
-            <div class="res-label">€ / Hora</div>
-            <div id="valHour" class="res-value" aria-atomic="true">—</div>
+        <div class="email-gate" aria-hidden="false">
+          <div style="font-weight:700;color:var(--muted);margin-bottom:6px">🔒 Desbloquea resultados</div>
+          <div class="email-row">
+            <input id="email" type="email" placeholder="tu@empresa.com" aria-label="email">
+            <button class="btn" id="unlock">Desbloquear</button>
           </div>
-          <div class="res-card">
-            <div class="res-label">€ / Día (24h)</div>
-            <div id="valDay" class="res-value">—</div>
+          <div class="consent">
+            <input id="consent" type="checkbox" aria-label="consentimiento">
+            <div style="max-width:82%">Acepto que mi correo se incluya en la lista de correo de inyec.pro y recibir comunicaciones relacionadas. Puedo darme de baja en cualquier momento.</div>
           </div>
-          <div class="res-card">
-            <div class="res-label">€ / Mes (30d)</div>
-            <div id="valMonth" class="res-value">—</div>
-          </div>
-          <div class="res-card">
-            <div class="res-label">€ / Año</div>
-            <div id="valYear" class="res-value">—</div>
+          <div class="download" aria-hidden="true">
+            <button class="btn ghost" id="download" style="display:none">Descargar CSV</button>
           </div>
         </div>
-
-        <!-- email gate -->
-        <div class="email-gate" id="emailGate" role="region" aria-label="Desbloquear resultados">
-          <div style="display:flex;flex-direction:column;gap:8px;">
-            <label for="emailInput" class="small" style="font-weight:700">Introduce tu email para desbloquear resultados</label>
-            <input id="emailInput" type="email" placeholder="tu@empresa.com" aria-label="email para desbloquear" />
-            <div class="checkbox">
-              <input id="consentCheckbox" type="checkbox" aria-label="consentimiento" />
-              <label for="consentCheckbox" class="small">Acepto que mi correo se incluya en la lista de correo de inyec.pro y recibir comunicaciones relacionadas.</label>
-            </div>
-            <div style="display:flex;gap:8px;">
-              <button class="btn" id="unlockBtn">Desbloquear resultados</button>
-              <button class="btn ghost" id="downloadBtn" title="Descargar informe" style="display:none">Descargar</button>
-            </div>
-            <div class="small note">Tus datos se enviarán a nuestro sistema para enviarte recomendaciones. Puedes darte de baja en cualquier momento.</div>
-          </div>
-        </div>
-
       </div>
 
-      <!-- RIGHT: chart + summary -->
-      <div class="right">
-        <div class="chart-card" aria-hidden="false">
-          <canvas id="scrapChart" aria-label="Gráfico de coste scrap" role="img"></canvas>
+      <!-- right card: results -->
+      <div class="card" aria-labelledby="resultsTitle">
+        <div id="resultsTitle" style="font-weight:800;font-size:15px;color:var(--accent);margin-bottom:10px">Resultados (bloqueados)</div>
+
+        <div class="results-grid" role="region" aria-label="Resultados">
+          <div class="result" id="rHourCard">
+            <div class="sweep" aria-hidden="true"></div>
+            <div class="label">Pérdida € / Hora</div>
+            <div class="value" id="vHour">—</div>
+          </div>
+
+          <div class="result" id="rDayCard">
+            <div class="sweep" aria-hidden="true"></div>
+            <div class="label">Pérdida € / Día (24h)</div>
+            <div class="value" id="vDay">—</div>
+          </div>
+
+          <div class="result" id="rMonthCard">
+            <div class="sweep" aria-hidden="true"></div>
+            <div class="label">Pérdida € / Mes (30d)</div>
+            <div class="value" id="vMonth">—</div>
+          </div>
+
+          <div class="result" id="rYearCard">
+            <div class="sweep" aria-hidden="true"></div>
+            <div class="label">Pérdida € / Año</div>
+            <div class="value" id="vYear">—</div>
+          </div>
         </div>
 
-        <div class="summary">
-          <h4>Resumen rápido</h4>
-          <p id="summaryText">Calcula y desbloquea para ver el impacto económico por hora, día, mes y año.</p>
-        </div>
+        <div style="margin-top:12px" class="small">Introduce valores y pulsa <strong>Calcular</strong>. Los resultados están difuminados; para ver cifras exactas introduce tu email y acepta el consentimiento.</div>
       </div>
     </div>
+
   </div>
+</div>
 
 <script>
-/* ---------------------------
-  Premium dashboard logic
-----------------------------*/
-
+/* Config */
 const webhookURL = "https://hook.eu2.make.com/axx0jrw2x1cul6e8shm7hs6ucfg7l6of";
 
+/* DOM */
 const $ = id => document.getElementById(id);
-const input_pieces = $("input_pieces");
-const input_weight = $("input_weight");
-const input_scrap = $("input_scrap");
-const input_price = $("input_price");
-
-const calcBtn = $("calcBtn");
-const resetBtn = $("resetBtn");
-const unlockBtn = $("unlockBtn");
-const downloadBtn = $("downloadBtn");
-const emailInput = $("emailInput");
-const consentCheckbox = $("consentCheckbox");
-
-const valHour = $("valHour");
-const valDay = $("valDay");
-const valMonth = $("valMonth");
-const valYear = $("valYear");
-const emailGate = $("emailGate");
-const summaryText = $("summaryText");
-
+const pieces = $("pieces"), weight = $("weight"), scrap = $("scrap"), price = $("price");
+const calcBtn = $("calc"), resetBtn = $("reset"), unlockBtn = $("unlock"), emailI = $("email"), consent = $("consent");
+const vHour = $("vHour"), vDay = $("vDay"), vMonth = $("vMonth"), vYear = $("vYear");
+const downloadBtn = $("download");
 let computed = null;
-let chart = null;
 
-/* Helper: format currency */
-function formatEUR(v){
-  return Number(v).toLocaleString('es-ES',{style:'currency',currency:'EUR',maximumFractionDigits:2});
+/* Formatting */
+function fmt(v){ return Number(v).toLocaleString('es-ES',{style:'currency',currency:'EUR',maximumFractionDigits:2}); }
+
+/* Validate */
+function validate(){
+  const p = Number(pieces.value), w = Number(weight.value), s = Number(scrap.value), pr = Number(price.value);
+  if(!isFinite(p) || p<=0) return {ok:false,msg:"Piezas / hora debe ser > 0"};
+  if(!isFinite(w) || w<=0) return {ok:false,msg:"Peso pieza (g) debe ser > 0"};
+  if(!isFinite(s) || s<0 || s>100) return {ok:false,msg:"% Scrap entre 0 y 100"};
+  if(!isFinite(pr) || pr<=0) return {ok:false,msg:"Precio €/kg debe ser > 0"};
+  return {ok:true,p,w,s,pr};
 }
 
-/* Validate inputs */
-function validateInputs(){
-  const pieces = Number(input_pieces.value);
-  const weight = Number(input_weight.value);
-  const scrap = Number(input_scrap.value);
-  const price = Number(input_price.value);
-
-  if(!isFinite(pieces) || pieces <= 0) return {ok:false,msg:"Piezas / hora debe ser mayor que 0"};
-  if(!isFinite(weight) || weight <= 0) return {ok:false,msg:"Peso pieza (g) debe ser mayor que 0"};
-  if(!isFinite(scrap) || scrap < 0 || scrap > 100) return {ok:false,msg:"% Scrap debe estar entre 0 y 100"};
-  if(!isFinite(price) || price <= 0) return {ok:false,msg:"Precio €/kg debe ser mayor que 0"};
-  return {ok:true, pieces, weight, scrap, price};
-}
-
-/* Compute values (correct formula) */
-function compute(){
-  const v = validateInputs();
+/* Compute (correct formulas) */
+function computeValues(){
+  const v = validate();
   if(!v.ok){ alert(v.msg); return null; }
-  const pieces = v.pieces;
-  const weightKg = v.weight / 1000; // g -> kg
-  const scrapFrac = v.scrap / 100;
-  const price = v.price;
+  const piecesPerHour = v.p;
+  const weightKg = v.w / 1000;
+  const scrapFrac = v.s / 100;
+  const priceKg = v.pr;
 
-  const scrapKgPerHour = pieces * scrapFrac * weightKg; // kg lost per hour
-  const costHour = scrapKgPerHour * price;
+  const lostKgHour = piecesPerHour * scrapFrac * weightKg; // kg per hour lost
+  const costHour = lostKgHour * priceKg;
   const costDay = costHour * 24;
-  const costMonth = costDay * 30; // 30 days
-  const costYear = costDay * 365; // 365 days
+  const costMonth = costDay * 30;
+  const costYear = costDay * 365;
 
-  computed = { costHour, costDay, costMonth, costYear, pieces, weightKg, scrapFrac, price };
-  return computed;
+  return {costHour, costDay, costMonth, costYear};
 }
 
-/* Show blurred placeholders (computed values) */
-function showPlaceholders(){
-  if(!computed) return;
-  valHour.textContent = formatEUR(computed.costHour);
-  valDay.textContent = formatEUR(computed.costDay);
-  valMonth.textContent = formatEUR(computed.costMonth);
-  valYear.textContent = formatEUR(computed.costYear);
-  // keep blurred until unlocked
-  [valHour,valDay,valMonth,valYear].forEach(el => el.classList.remove("unlocked"));
-  summaryText.textContent = `Impacto estimado calculado. Introduce tu email y acepta para desbloquear cifras detalladas y recomendaciones.`;
-  updateChart([computed.costHour, computed.costDay, computed.costMonth, computed.costYear]);
+/* Show blurred placeholders (no unlock) */
+function showPlaceholders(vals){
+  if(!vals) return;
+  vHour.textContent = fmt(vals.costHour);
+  vDay.textContent = fmt(vals.costDay);
+  vMonth.textContent = fmt(vals.costMonth);
+  vYear.textContent = fmt(vals.costYear);
+  // remove unlocked class
+  [vHour,vDay,vMonth,vYear].forEach(e => e.classList.remove("unlocked"));
+  computed = vals;
 }
 
-/* Animate counters and unlock view */
+/* Animate unlock */
 function animateAndUnlock(){
   if(!computed) return;
-  const targets = [
-    [valHour, computed.costHour, 800],
-    [valDay, computed.costDay, 1000],
-    [valMonth, computed.costMonth, 1200],
-    [valYear, computed.costYear, 1400]
+  const list = [
+    [vHour, computed.costHour, 900],
+    [vDay, computed.costDay, 1100],
+    [vMonth, computed.costMonth, 1300],
+    [vYear, computed.costYear, 1500]
   ];
-  targets.forEach(([el, end, dur]) => {
-    animateValue(el, end, dur);
-    el.classList.add("unlocked");
-  });
-  summaryText.textContent = `Mostrando cifras reales basadas en tus datos.`;
-  downloadBtn.style.display = "inline-block";
+  list.forEach(([el,end,dur]) => animate(el,end,dur));
+  [vHour,vDay,vMonth,vYear].forEach(e => e.classList.add("unlocked"));
 }
 
-/* Counter animation */
-function animateValue(el, end, duration=1000){
+/* Counter animation (easeOutCubic) */
+function animate(el, end, duration=1000){
   const start = 0;
-  const steps = Math.max(12, Math.round(duration / 20));
+  const steps = Math.max(12, Math.round(duration/20));
   let step = 0;
   const timer = setInterval(()=>{
     step++;
-    const progress = step / steps;
-    const eased = 1 - Math.pow(1 - progress, 3);
-    const value = start + (end - start) * eased;
-    el.textContent = formatEUR(value);
-    if(step >= steps){ clearInterval(timer); el.textContent = formatEUR(end); }
+    const t = step/steps;
+    const eased = 1 - Math.pow(1 - t, 3);
+    const v = start + (end - start) * eased;
+    el.textContent = fmt(v);
+    if(step >= steps){ clearInterval(timer); el.textContent = fmt(end); }
   }, 20);
 }
 
-/* Chart initialisation */
-function initChart(){
-  const ctx = document.getElementById('scrapChart').getContext('2d');
-  chart = new Chart(ctx, {
-    type: 'bar',
-    data: {
-      labels: ['Hora','Día (24h)','Mes (30d)','Año'],
-      datasets: [{
-        label: 'Coste Scrap (€)',
-        data: [0,0,0,0],
-        backgroundColor: [
-          'rgba(92,188,174,0.95)',
-          'rgba(92,188,174,0.85)',
-          'rgba(92,188,174,0.75)',
-          'rgba(92,188,174,0.65)'
-        ],
-        borderRadius: 8
-      }]
-    },
-    options: {
-      responsive:true,
-      maintainAspectRatio:false,
-      scales:{
-        y:{ beginAtZero:true, ticks:{ color: '#bfeee3' } },
-        x:{ ticks:{ color:'#bfeee3' } }
-      },
-      plugins:{ legend:{ display:false } }
-    }
-  });
+/* Send email to Make webhook */
+async function sendWebhook(email){
+  try{
+    const res = await fetch(webhookURL, {
+      method: "POST",
+      headers: {"Content-Type":"application/json"},
+      body: JSON.stringify({ email, source: "calculadora_scrap" })
+    });
+    return res.ok;
+  }catch(e){
+    console.warn("Webhook error", e);
+    return false;
+  }
 }
 
-/* Update chart with values */
-function updateChart(values){
-  if(!chart) return;
-  chart.data.datasets[0].data = values;
-  chart.update();
-}
+/* Events */
+calcBtn.addEventListener('click', () => {
+  const vals = computeValues();
+  if(!vals) return;
+  showPlaceholders(vals);
+  // subtle pulse on cards
+  document.querySelectorAll('.result').forEach(c => { c.style.animation = "pulseGlow 1.6s ease-in-out"; setTimeout(()=>c.style.animation = "",1600); });
+});
 
-/* Reset form */
-function resetAll(){
-  input_pieces.value = "";
-  input_weight.value = "";
-  input_scrap.value = "";
-  input_price.value = "";
-  emailInput.value = "";
-  consentCheckbox.checked = false;
+resetBtn.addEventListener('click', () => {
+  pieces.value = ""; weight.value = ""; scrap.value = ""; price.value = "";
+  emailI.value = ""; consent.checked = false;
   computed = null;
-  [valHour,valDay,valMonth,valYear].forEach(el => { el.textContent = "—"; el.classList.remove("unlocked"); });
-  summaryText.textContent = "Calcula y desbloquea para ver el impacto económico por hora, día, mes y año.";
-  updateChart([0,0,0,0]);
-  downloadBtn.style.display = "none";
-}
+  [vHour,vDay,vMonth,vYear].forEach(e => { e.textContent = "—"; e.classList.remove("unlocked"); });
+});
 
-/* Download simple report (CSV) */
-function downloadReport(){
+unlockBtn.addEventListener('click', async () => {
+  if(!computed){ alert("Calcula primero para desbloquear."); return; }
+  const mail = emailI.value.trim();
+  if(!mail || mail.indexOf('@')<0){ alert("Introduce un email válido."); return; }
+  if(!consent.checked){ alert("Debes aceptar el consentimiento."); return; }
+
+  unlockBtn.disabled = true; unlockBtn.textContent = "Enviando...";
+  const ok = await sendWebhook(mail);
+  // We proceed regardless of ok to keep UX smooth
+  setTimeout(()=>{ unlockBtn.disabled=false; unlockBtn.textContent = "Desbloquear"; }, 900);
+  animateAndUnlock();
+  downloadBtn.style.display = "inline-block";
+});
+
+/* download CSV */
+downloadBtn.addEventListener('click', () => {
   if(!computed) return;
   const rows = [
     ["Metric","Value (€)"],
@@ -497,80 +452,18 @@ function downloadReport(){
     ["Coste / Año", computed.costYear.toFixed(2)]
   ];
   const csv = rows.map(r => r.join(",")).join("\n");
-  const blob = new Blob([csv], { type: "text/csv;charset=utf-8;" });
+  const blob = new Blob([csv], { type: "text/csv" });
   const url = URL.createObjectURL(blob);
-  const a = document.createElement("a");
-  a.href = url;
-  a.download = "informe_scrap.csv";
-  document.body.appendChild(a);
-  a.click();
-  a.remove();
-}
-
-/* Send email to Make webhook */
-async function sendToWebhook(email){
-  try{
-    const body = { email: email, source: "calculadora_scrap" };
-    // fire-and-forget; make returns 200 if ok
-    const resp = await fetch(webhookURL, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(body)
-    });
-    // not strictly required to await; but we can log
-    // console.log("Webhook response", resp.status);
-    return resp.ok;
-  } catch(e){
-    console.warn("Webhook error", e);
-    return false;
-  }
-}
-
-/* EVENTS */
-calcBtn.addEventListener('click', () => {
-  const vals = compute();
-  if(!vals) return;
-  showPlaceholders();
+  const a = document.createElement('a');
+  a.href = url; a.download = "informe_scrap.csv"; document.body.appendChild(a); a.click(); a.remove();
 });
 
-resetBtn.addEventListener('click', resetAll);
-
-unlockBtn.addEventListener('click', async () => {
-  // validate computed exists
-  if(!computed){ alert("Calcula antes de desbloquear."); return; }
-
-  const email = emailInput.value.trim();
-  const consent = consentCheckbox.checked;
-  if(!email || !email.includes("@")){ alert("Introduce un email válido."); return; }
-  if(!consent){ alert("Debes aceptar el consentimiento."); return; }
-
-  // disable button, show in-progress
-  unlockBtn.disabled = true;
-  unlockBtn.textContent = "Enviando...";
-
-  const ok = await sendToWebhook(email);
-  // ignore ok/fail for UX but inform in console
-  if(!ok){
-    console.warn("No se pudo enviar al webhook (ver consola). Aún así se desbloquea localmente.");
-  }
-
-  // small delay for UX
-  setTimeout(()=>{ unlockBtn.disabled=false; unlockBtn.textContent = "Desbloquear resultados"; animateAndUnlock(); }, 550);
-
-});
-
-downloadBtn.addEventListener('click', downloadReport);
-
-/* init */
-initChart();
-resetAll();
-
-/* Accessibility: Enter key triggers calculate or unlock when focused */
-document.addEventListener('keydown', (e)=>{
-  if(e.key === "Enter"){
+/* Accessibility: Enter key */
+document.addEventListener('keydown', (e) => {
+  if(e.key === 'Enter'){
     const active = document.activeElement;
-    if([input_pieces,input_weight,input_scrap,input_price].includes(active)) calcBtn.click();
-    if(active === emailInput) unlockBtn.click();
+    if([pieces,weight,scrap,price].includes(active)) calcBtn.click();
+    if(active === emailI) unlockBtn.click();
   }
 });
 </script>
