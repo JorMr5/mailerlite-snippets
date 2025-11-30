@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width,initial-scale=1" />
-<title>Calculadora Premium - Coste de Scrap</title>
+<title>Calculadora de Scrap Premium</title>
 
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
 
@@ -14,7 +14,7 @@
   --muted:#8fbfb2;
   --glass: rgba(255,255,255,0.03);
   --block:#071015;
-  --card-border: rgba(92,188,174,0.12);
+  --card-border: rgba(92,188,174,0.18);
   --text:#e6f7f2;
 }
 *{box-sizing:border-box}
@@ -32,17 +32,15 @@ body{
   justify-content:center;
 }
 
-/* subtle grid lines background for neon HUD */
 .bg-grid{
   position:fixed;inset:0;pointer-events:none;z-index:0;
   background-image:
-    linear-gradient(rgba(255,255,255,0.01) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(255,255,255,0.01) 1px, transparent 1px);
+    linear-gradient(rgba(255,255,255,0.015) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255,255,255,0.015) 1px, transparent 1px);
   background-size: 44px 44px, 44px 44px;
   opacity:0.06;
 }
 
-/* Main container */
 .wrap{
   width:100%;
   max-width:980px;
@@ -61,7 +59,6 @@ body{
   overflow:hidden;
 }
 
-/* Neon accents top */
 .header{
   display:flex;
   justify-content:space-between;
@@ -71,283 +68,298 @@ body{
 .title{
   font-weight:800;
   color:var(--accent);
-  font-size:22px;
-  letter-spacing:0.6px;
+  font-size:24px;
+  letter-spacing:0.4px;
   font-family: "Space Mono", monospace;
   display:flex;
   align-items:center;
-  gap:12px;
+  gap:10px;
 }
 .title .dash{
-  width:40px;height:2px;background:linear-gradient(90deg, rgba(92,188,174,0.9), rgba(92,188,174,0.35));
-  box-shadow:0 0 18px rgba(92,188,174,0.12), 0 0 60px rgba(92,188,174,0.02) inset;
-  transform:translateY(2px);
+  width:36px;height:2px;
+  background:linear-gradient(90deg, rgba(92,188,174,0.9), rgba(92,188,174,0.3));
+  box-shadow:0 0 14px rgba(92,188,174,0.25);
 }
 .subtitle{color:var(--muted);font-size:13px;margin-top:4px}
 
-/* Main area: two cards (inputs + results) */
 .area{
   display:grid;
   grid-template-columns: 1fr 1fr;
   gap:18px;
 }
 
-/* Card base */
+/* card styling */
 .card{
-  background: linear-gradient(180deg, rgba(255,255,255,0.01), rgba(0,0,0,0.02));
+  background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(0,0,0,0.04));
   border-radius:12px;
   padding:16px;
-  border:1px solid rgba(255,255,255,0.02);
+  border:1px solid rgba(255,255,255,0.04);
   position:relative;
   overflow:hidden;
+  box-shadow:0 0 20px rgba(92,188,174,0.04);
 }
 
-/* Left - Inputs */
+/* inputs */
 .inputs-grid{
   display:grid;
   grid-template-columns:1fr 1fr;
   gap:12px;
 }
 .field{
-  background: linear-gradient(180deg, rgba(255,255,255,0.01), rgba(0,0,0,0.02));
+  background:linear-gradient(180deg, rgba(255,255,255,0.015), rgba(0,0,0,0.04));
   border-radius:10px;
   padding:12px;
-  border:1px solid rgba(255,255,255,0.02);
+  border:1px solid rgba(255,255,255,0.03);
   position:relative;
-  box-shadow: 0 6px 18px rgba(0,0,0,0.6) inset;
 }
 .field label{
   font-size:13px;color:var(--muted);font-weight:700;margin-bottom:8px;display:block;
 }
 .field input{
   background:#020404;color:var(--text);border:1px solid rgba(255,255,255,0.03);
-  padding:12px;border-radius:8px;font-size:17px;
-  box-shadow:0 6px 18px rgba(92,188,174,0.02) inset;
+  padding:14px;border-radius:8px;font-size:18px;
   transition: box-shadow .18s, transform .12s;
   width:100%;
 }
-
-/* Terminal-Tech feel: focus glow */
 .field input:focus{
   outline:none;
-  box-shadow: 0 0 24px rgba(92,188,174,0.18), 0 6px 18px rgba(92,188,174,0.04) inset;
+  box-shadow: 0 0 14px rgba(92,188,174,0.25), 0 0 4px rgba(92,188,174,0.12) inset;
   transform: translateY(-1px);
 }
 
-/* Buttons */
+/* buttons */
 .actions{display:flex;gap:12px;margin-top:12px}
 .btn{
-  background:var(--accent);color:#021916;border:0;padding:12px 14px;border-radius:10px;font-weight:800;font-size:15px;cursor:pointer;
-  box-shadow: 0 10px 30px rgba(92,188,174,0.06);
+  background:var(--accent);color:#021916;border:0;padding:12px 14px;border-radius:10px;font-weight:800;font-size:16px;cursor:pointer;
+  box-shadow:0 10px 26px rgba(92,188,174,0.15);
 }
-.btn.ghost{background:transparent;color:var(--muted);border:1px solid rgba(255,255,255,0.02)}
-
-/* Right - Results (cyber blocks) */
-.results-grid{display:grid;grid-template-columns:repeat(1,1fr);gap:12px}
-.result{
-  background: linear-gradient(180deg, rgba(10,16,18,0.6), rgba(7,11,12,0.4));
-  border-radius:10px;padding:14px;border:1px solid var(--card-border);
-  position:relative;overflow:hidden;min-height:78px;
-  box-shadow: 0 8px 28px rgba(0,0,0,0.6);
+.btn.ghost{
+  background:transparent;color:var(--muted);border:1px solid rgba(255,255,255,0.05)
 }
-.result .label{font-size:13px;color:var(--muted);font-weight:700}
-.result .value{font-size:24px;font-weight:800;color:var(--text);margin-top:8px}
-
-/* cyber detail lines */
-.result:before, .result:after{
-  content:"";position:absolute;inset:0;border-radius:10px;pointer-events:none;
-}
-.result:before{
-  background: linear-gradient(90deg, rgba(92,188,174,0.03), transparent 20%, transparent 80%, rgba(92,188,174,0.02));
-  mix-blend-mode: overlay; opacity:0.7;
-}
-.result:after{
-  background-image: linear-gradient(0deg, rgba(255,255,255,0.01) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.01) 1px, transparent 1px);
-  background-size: 40px 40px, 40px 40px;
-  opacity:0.03;
-}
-
-/* Light sweep diagonal (animation) */
-.sweep{
-  position:absolute;inset:-40%  -40% -40% -40%;
-  transform:rotate(-18deg);
-  background: linear-gradient(90deg, rgba(255,255,255,0) 0%, rgba(255,255,255,0.04) 45%, rgba(255,255,255,0) 100%);
-  mix-blend-mode: screen;
-  animation: sweep 3.8s linear infinite;
-  opacity:0.7;
-}
-@keyframes sweep{
-  0%{ transform: translateX(-110%) rotate(-18deg); }
-  50%{ transform: translateX(110%) rotate(-18deg); }
-  100%{ transform: translateX(320%) rotate(-18deg); }
-}
-
-/* glow pulse */
-@keyframes pulseGlow{
-  0%{ box-shadow: 0 6px 30px rgba(92,188,174,0.04); }
-  50%{ box-shadow: 0 10px 40px rgba(92,188,174,0.14); }
-  100%{ box-shadow: 0 6px 30px rgba(92,188,174,0.04); }
-}
-
-/* large typography */
-.title { font-size:24px; }
-.field input { font-size:18px; padding:14px; }
-.result .value { font-size:26px; }
 
 /* email gate */
 .email-gate{
-  margin-top:12px;padding:12px;border-radius:10px;border:1px solid rgba(255,255,255,0.02);background:linear-gradient(180deg, rgba(255,255,255,0.01), rgba(0,0,0,0.02));
+  margin-top:12px;padding:12px;border-radius:10px;
+  border:1px solid rgba(255,255,255,0.03);
+  background:linear-gradient(180deg, rgba(255,255,255,0.015), rgba(0,0,0,0.04));
 }
 .email-row{display:flex;gap:10px;align-items:center}
-.email-row input{flex:1;padding:12px;border-radius:8px;border:1px solid rgba(255,255,255,0.03);background:#010202;color:var(--text);font-size:16px}
-.consent{display:flex;gap:10px;align-items:flex-start;margin-top:8px;color:var(--muted);font-size:13px}
-.download{margin-top:10px;display:flex;gap:10px}
-
-/* responsive */
-@media (max-width:900px){
-  .area{grid-template-columns:1fr}
-  .results-grid{grid-template-columns:1fr 1fr}
+.email-row input{
+  flex:1;padding:12px;border-radius:8px;border:1px solid rgba(255,255,255,0.03);background:#010202;color:var(--text);font-size:16px
 }
-@media (max-width:520px){
-  .inputs-grid{grid-template-columns:1fr}
-  .results-grid{grid-template-columns:1fr}
-  .title{font-size:20px}
+.consent{
+  display:flex;gap:10px;align-items:flex-start;margin-top:8px;color:var(--muted);font-size:13px
+}
+.download{
+  margin-top:10px;display:flex;gap:10px
+}
+
+/* results */
+.results-grid{display:grid;grid-template-columns:repeat(1,1fr);gap:14px}
+.result{
+  background: linear-gradient(180deg, rgba(10,16,18,0.65), rgba(7,11,12,0.5));
+  border-radius:10px;padding:14px;border:1px solid var(--card-border);
+  position:relative;overflow:hidden;min-height:78px;
+  box-shadow:0 0 18px rgba(92,188,174,0.05);
+}
+
+/* glow dynamic animation */
+@keyframes glow{
+  0%{ box-shadow:0 0 10px rgba(92,188,174,0.05); border-color:rgba(92,188,174,0.12); }
+  50%{ box-shadow:0 0 22px rgba(92,188,174,0.18); border-color:rgba(92,188,174,0.22); }
+  100%{ box-shadow:0 0 10px rgba(92,188,174,0.05); border-color:rgba(92,188,174,0.12); }
+}
+.result{
+  animation: glow 4s ease-in-out infinite;
+}
+
+.label{font-size:13px;color:var(--muted);font-weight:700}
+.value{font-size:26px;font-weight:800;color:var(--text);margin-top:8px}
+
+/* glitch effect for locked values */
+.glitch{
+  position:relative;
+  display:inline-block;
+  color:var(--text);
+  animation: glitchAnim 1.8s infinite;
+}
+
+.glitch:before, .glitch:after{
+  content:attr(data-text);
+  position:absolute;
+  left:0;
+  top:0;
+  opacity:0.55;
+}
+
+.glitch:before{
+  color:#5cfccc;
+  transform:translate(2px, -1px);
+  clip-path: polygon(0 2%, 100% 3%, 100% 20%, 0 18%);
+  animation: glitchBefore 1.8s infinite linear alternate-reverse;
+}
+
+.glitch:after{
+  color:#ff50ad;
+  transform:translate(-2px,1px);
+  clip-path: polygon(0 70%, 100% 72%, 100% 91%, 0 89%);
+  animation: glitchAfter 1.8s infinite linear alternate-reverse;
+}
+
+@keyframes glitchAnim{
+  0%{ transform:none; }
+  25%{ transform:translate(1px, -1px); }
+  50%{ transform:translate(-1px,1px); }
+  75%{ transform:translate(1px,0px); }
+  100%{ transform:none; }
+}
+@keyframes glitchBefore{
+  0%{ transform:translate(2px,-1px); }
+  50%{ transform:translate(-2px,1px); }
+  100%{ transform:translate(1px,-2px); }
+}
+@keyframes glitchAfter{
+  0%{ transform:translate(-2px,1px); }
+  50%{ transform:translate(2px,-1px); }
+  100%{ transform:translate(-1px,2px); }
+}
+
+/* unlocked state */
+.unlocked .value{
+  animation:none;
+}
+.unlocked .value:before,
+.unlocked .value:after{
+  display:none;
 }
 </style>
 </head>
+
 <body>
-<div class="bg-grid" aria-hidden="true"></div>
+<div class="bg-grid"></div>
 
 <div class="wrap">
-  <div class="shell" role="application" aria-label="Calculadora de scrap premium">
+  <div class="shell">
+
     <div class="header">
       <div>
         <div class="title"><span class="dash"></span> SCRAP CALC</div>
-        <div class="subtitle">Calcula el coste real del scrap — desbloquea cifras y reduce pérdidas</div>
+        <div class="subtitle">Calcula el coste real del scrap — versión Neon Tech Premium</div>
       </div>
       <div style="font-size:12px;color:var(--muted);font-weight:700;align-self:center">inyec.pro</div>
     </div>
 
     <div class="area">
-      <!-- left card: inputs -->
-      <div class="card" aria-labelledby="inputsTitle">
-        <div id="inputsTitle" style="font-weight:800;font-size:15px;color:var(--accent);margin-bottom:10px">Entradas</div>
 
-        <div class="inputs-grid" role="region" aria-label="Entradas">
+      <!-- inputs -->
+      <div class="card">
+        <div style="font-weight:800;font-size:15px;color:var(--accent);margin-bottom:10px">Entradas</div>
+
+        <div class="inputs-grid">
           <div class="field">
-            <label for="pieces">Piezas / hora</label>
-            <input id="pieces" type="number" inputmode="numeric" min="0" placeholder="Ej. 120" aria-label="Piezas por hora">
+            <label>Piezas / hora</label>
+            <input id="pieces" type="number" placeholder="120">
           </div>
 
           <div class="field">
-            <label for="weight">Peso pieza (g)</label>
-            <input id="weight" type="number" inputmode="numeric" min="0" placeholder="Ej. 34" aria-label="Peso pieza en gramos">
+            <label>Peso pieza (g)</label>
+            <input id="weight" type="number" placeholder="34">
           </div>
 
           <div class="field">
-            <label for="scrap"> % Scrap</label>
-            <input id="scrap" type="number" inputmode="numeric" min="0" max="100" step="0.01" placeholder="Ej. 2.5" aria-label="Porcentaje de scrap">
+            <label>% Scrap</label>
+            <input id="scrap" type="number" step="0.01" placeholder="2.5">
           </div>
 
           <div class="field">
-            <label for="price">Precio €/kg (granza)</label>
-            <input id="price" type="number" inputmode="numeric" min="0" step="0.01" placeholder="Ej. 2.50" aria-label="Precio euros por kilogramo">
+            <label>Precio €/kg (granza)</label>
+            <input id="price" type="number" step="0.01" placeholder="2.50">
           </div>
         </div>
 
-        <div class="actions" role="group" aria-label="acciones">
+        <div class="actions">
           <button class="btn" id="calc">Calcular</button>
           <button class="btn ghost" id="reset">Reset</button>
         </div>
 
-        <div class="email-gate" aria-hidden="false">
+        <div class="email-gate">
           <div style="font-weight:700;color:var(--muted);margin-bottom:6px">🔒 Desbloquea resultados</div>
           <div class="email-row">
-            <input id="email" type="email" placeholder="tu@empresa.com" aria-label="email">
+            <input id="email" type="email" placeholder="tu@empresa.com">
             <button class="btn" id="unlock">Desbloquear</button>
           </div>
+
           <div class="consent">
-            <input id="consent" type="checkbox" aria-label="consentimiento">
-            <div style="max-width:82%">Acepto que mi correo se incluya en la lista de correo de inyec.pro y recibir comunicaciones relacionadas. Puedo darme de baja en cualquier momento.</div>
+            <input id="consent" type="checkbox">
+            <div>Acepto recibir emails de inyec.pro relacionados con contenido técnico.</div>
           </div>
-          <div class="download" aria-hidden="true">
+
+          <div class="download">
             <button class="btn ghost" id="download" style="display:none">Descargar CSV</button>
           </div>
         </div>
       </div>
 
-      <!-- right card: results -->
-      <div class="card" aria-labelledby="resultsTitle">
-        <div id="resultsTitle" style="font-weight:800;font-size:15px;color:var(--accent);margin-bottom:10px">Resultados (bloqueados)</div>
+      <!-- results -->
+      <div class="card">
+        <div style="font-weight:800;font-size:15px;color:var(--accent);margin-bottom:10px">Resultados</div>
 
-        <div class="results-grid" role="region" aria-label="Resultados">
-          <div class="result" id="rHourCard">
-            <div class="sweep" aria-hidden="true"></div>
-            <div class="label">Pérdida € / Hora</div>
-            <div class="value" id="vHour">—</div>
-          </div>
-
-          <div class="result" id="rDayCard">
-            <div class="sweep" aria-hidden="true"></div>
-            <div class="label">Pérdida € / Día (24h)</div>
-            <div class="value" id="vDay">—</div>
-          </div>
-
-          <div class="result" id="rMonthCard">
-            <div class="sweep" aria-hidden="true"></div>
-            <div class="label">Pérdida € / Mes (30d)</div>
-            <div class="value" id="vMonth">—</div>
-          </div>
-
-          <div class="result" id="rYearCard">
-            <div class="sweep" aria-hidden="true"></div>
-            <div class="label">Pérdida € / Año</div>
-            <div class="value" id="vYear">—</div>
-          </div>
+        <div class="results-grid">
+          <div class="result" id="resH"><div class="label">€/Hora</div><div class="value glitch" id="vHour" data-text="—">—</div></div>
+          <div class="result" id="resD"><div class="label">€/Día (24h)</div><div class="value glitch" id="vDay" data-text="—">—</div></div>
+          <div class="result" id="resM"><div class="label">€/Mes (30d)</div><div class="value glitch" id="vMonth" data-text="—">—</div></div>
+          <div class="result" id="resY"><div class="label">€/Año</div><div class="value glitch" id="vYear" data-text="—">—</div></div>
         </div>
 
-        <div style="margin-top:12px" class="small">Introduce valores y pulsa <strong>Calcular</strong>. Los resultados están difuminados; para ver cifras exactas introduce tu email y acepta el consentimiento.</div>
       </div>
-    </div>
 
+    </div>
   </div>
 </div>
 
 <script>
-/* Config */
 const webhookURL = "https://hook.eu2.make.com/axx0jrw2x1cul6e8shm7hs6ucfg7l6of";
 
-/* DOM */
-const $ = id => document.getElementById(id);
-const pieces = $("pieces"), weight = $("weight"), scrap = $("scrap"), price = $("price");
-const calcBtn = $("calc"), resetBtn = $("reset"), unlockBtn = $("unlock"), emailI = $("email"), consent = $("consent");
-const vHour = $("vHour"), vDay = $("vDay"), vMonth = $("vMonth"), vYear = $("vYear");
-const downloadBtn = $("download");
+const pieces = document.getElementById("pieces");
+const weight = document.getElementById("weight");
+const scrap = document.getElementById("scrap");
+const price = document.getElementById("price");
+const calcBtn = document.getElementById("calc");
+const resetBtn = document.getElementById("reset");
+const unlockBtn = document.getElementById("unlock");
+const emailI = document.getElementById("email");
+const consent = document.getElementById("consent");
+const downloadBtn = document.getElementById("download");
+
+const vHour = document.getElementById("vHour");
+const vDay = document.getElementById("vDay");
+const vMonth = document.getElementById("vMonth");
+const vYear = document.getElementById("vYear");
+
 let computed = null;
 
-/* Formatting */
-function fmt(v){ return Number(v).toLocaleString('es-ES',{style:'currency',currency:'EUR',maximumFractionDigits:2}); }
+function fmt(v){ return Number(v).toLocaleString('es-ES',{style:'currency',currency:'EUR'}); }
 
-/* Validate */
 function validate(){
   const p = Number(pieces.value), w = Number(weight.value), s = Number(scrap.value), pr = Number(price.value);
-  if(!isFinite(p) || p<=0) return {ok:false,msg:"Piezas / hora debe ser > 0"};
-  if(!isFinite(w) || w<=0) return {ok:false,msg:"Peso pieza (g) debe ser > 0"};
-  if(!isFinite(s) || s<0 || s>100) return {ok:false,msg:"% Scrap entre 0 y 100"};
-  if(!isFinite(pr) || pr<=0) return {ok:false,msg:"Precio €/kg debe ser > 0"};
+  if(!p || p<=0) return {ok:false,msg:"Piezas / hora inválido"};
+  if(!w || w<=0) return {ok:false,msg:"Peso pieza inválido"};
+  if(!s && s!==0) return {ok:false,msg:"Scrap inválido"};
+  if(s<0 || s>100) return {ok:false,msg:"Scrap entre 0 y 100"};
+  if(!pr || pr<=0) return {ok:false,msg:"Precio €/kg inválido"};
   return {ok:true,p,w,s,pr};
 }
 
-/* Compute (correct formulas) */
 function computeValues(){
-  const v = validate();
-  if(!v.ok){ alert(v.msg); return null; }
-  const piecesPerHour = v.p;
-  const weightKg = v.w / 1000;
-  const scrapFrac = v.s / 100;
-  const priceKg = v.pr;
+  const x = validate();
+  if(!x.ok){ alert(x.msg); return null; }
 
-  const lostKgHour = piecesPerHour * scrapFrac * weightKg; // kg per hour lost
+  const piecesPerHour = x.p;
+  const weightKg = x.w / 1000;
+  const scrapFrac = x.s / 100;
+  const priceKg = x.pr;
+
+  const lostKgHour = piecesPerHour * scrapFrac * weightKg;
   const costHour = lostKgHour * priceKg;
   const costDay = costHour * 24;
   const costMonth = costDay * 30;
@@ -356,116 +368,109 @@ function computeValues(){
   return {costHour, costDay, costMonth, costYear};
 }
 
-/* Show blurred placeholders (no unlock) */
-function showPlaceholders(vals){
+/* show locked glitch */
+function showLocked(vals){
   if(!vals) return;
-  vHour.textContent = fmt(vals.costHour);
-  vDay.textContent = fmt(vals.costDay);
-  vMonth.textContent = fmt(vals.costMonth);
-  vYear.textContent = fmt(vals.costYear);
-  // remove unlocked class
-  [vHour,vDay,vMonth,vYear].forEach(e => e.classList.remove("unlocked"));
-  computed = vals;
+  const show = (el,val) => {
+    el.setAttribute("data-text", fmt(val));
+    el.textContent = fmt(val);
+    el.classList.add("glitch");
+  };
+  show(vHour, vals.costHour);
+  show(vDay, vals.costDay);
+  show(vMonth, vals.costMonth);
+  show(vYear, vals.costYear);
 }
 
-/* Animate unlock */
-function animateAndUnlock(){
-  if(!computed) return;
-  const list = [
-    [vHour, computed.costHour, 900],
-    [vDay, computed.costDay, 1100],
-    [vMonth, computed.costMonth, 1300],
-    [vYear, computed.costYear, 1500]
-  ];
-  list.forEach(([el,end,dur]) => animate(el,end,dur));
-  [vHour,vDay,vMonth,vYear].forEach(e => e.classList.add("unlocked"));
+/* unlock animation */
+function unlockValues(){
+  const animate = (el,end) => {
+    el.classList.remove("glitch");
+    el.parentElement.classList.add("unlocked");
+
+    let start = 0;
+    const steps = 30;
+    let c = 0;
+    const timer = setInterval(()=>{
+      c++;
+      const t = c/steps;
+      const eased = 1 - Math.pow(1 - t, 3);
+      const v = start + (end - start)*eased;
+      el.textContent = fmt(v);
+      if(c>=steps){ clearInterval(timer); el.textContent = fmt(end); }
+    },25);
+  };
+
+  animate(vHour, computed.costHour);
+  animate(vDay, computed.costDay);
+  animate(vMonth, computed.costMonth);
+  animate(vYear, computed.costYear);
 }
 
-/* Counter animation (easeOutCubic) */
-function animate(el, end, duration=1000){
-  const start = 0;
-  const steps = Math.max(12, Math.round(duration/20));
-  let step = 0;
-  const timer = setInterval(()=>{
-    step++;
-    const t = step/steps;
-    const eased = 1 - Math.pow(1 - t, 3);
-    const v = start + (end - start) * eased;
-    el.textContent = fmt(v);
-    if(step >= steps){ clearInterval(timer); el.textContent = fmt(end); }
-  }, 20);
-}
-
-/* Send email to Make webhook */
-async function sendWebhook(email){
-  try{
-    const res = await fetch(webhookURL, {
-      method: "POST",
-      headers: {"Content-Type":"application/json"},
-      body: JSON.stringify({ email, source: "calculadora_scrap" })
-    });
-    return res.ok;
-  }catch(e){
-    console.warn("Webhook error", e);
-    return false;
-  }
-}
-
-/* Events */
-calcBtn.addEventListener('click', () => {
+calcBtn.onclick = ()=>{
   const vals = computeValues();
   if(!vals) return;
-  showPlaceholders(vals);
-  // subtle pulse on cards
-  document.querySelectorAll('.result').forEach(c => { c.style.animation = "pulseGlow 1.6s ease-in-out"; setTimeout(()=>c.style.animation = "",1600); });
-});
+  computed = vals;
+  showLocked(vals);
+};
 
-resetBtn.addEventListener('click', () => {
-  pieces.value = ""; weight.value = ""; scrap.value = ""; price.value = "";
-  emailI.value = ""; consent.checked = false;
+resetBtn.onclick = ()=>{
+  pieces.value = weight.value = scrap.value = price.value = "";
+  emailI.value = "";
+  consent.checked = false;
   computed = null;
-  [vHour,vDay,vMonth,vYear].forEach(e => { e.textContent = "—"; e.classList.remove("unlocked"); });
-});
 
-unlockBtn.addEventListener('click', async () => {
-  if(!computed){ alert("Calcula primero para desbloquear."); return; }
+  [vHour,vDay,vMonth,vYear].forEach(el=>{
+    el.textContent = "—";
+    el.setAttribute("data-text","—");
+    el.classList.add("glitch");
+  });
+};
+
+unlockBtn.onclick = async ()=>{
+  if(!computed){ alert("Calcula primero"); return; }
   const mail = emailI.value.trim();
-  if(!mail || mail.indexOf('@')<0){ alert("Introduce un email válido."); return; }
-  if(!consent.checked){ alert("Debes aceptar el consentimiento."); return; }
+  if(!mail || mail.indexOf("@")<0){ alert("Email inválido"); return; }
+  if(!consent.checked){ alert("Debes aceptar el consentimiento"); return; }
 
-  unlockBtn.disabled = true; unlockBtn.textContent = "Enviando...";
-  const ok = await sendWebhook(mail);
-  // We proceed regardless of ok to keep UX smooth
-  setTimeout(()=>{ unlockBtn.disabled=false; unlockBtn.textContent = "Desbloquear"; }, 900);
-  animateAndUnlock();
-  downloadBtn.style.display = "inline-block";
-});
+  unlockBtn.disabled = true;
+  unlockBtn.textContent = "Enviando...";
 
-/* download CSV */
-downloadBtn.addEventListener('click', () => {
+  try{
+    await fetch(webhookURL,{
+      method:"POST",
+      headers:{"Content-Type":"application/json"},
+      body:JSON.stringify({email:mail,source:"calculadora_scrap"})
+    });
+  }catch(e){}
+
+  setTimeout(()=>{
+    unlockBtn.disabled = false;
+    unlockBtn.textContent = "Desbloquear";
+  },700);
+
+  unlockValues();
+  downloadBtn.style.display="inline-block";
+};
+
+downloadBtn.onclick = ()=>{
   if(!computed) return;
   const rows = [
-    ["Metric","Value (€)"],
+    ["Métrica","Valor (€)"],
     ["Coste / Hora", computed.costHour.toFixed(2)],
     ["Coste / Día (24h)", computed.costDay.toFixed(2)],
     ["Coste / Mes (30d)", computed.costMonth.toFixed(2)],
     ["Coste / Año", computed.costYear.toFixed(2)]
   ];
-  const csv = rows.map(r => r.join(",")).join("\n");
-  const blob = new Blob([csv], { type: "text/csv" });
+  const csv = rows.map(r=>r.join(",")).join("\n");
+  const blob = new Blob([csv],{type:"text/csv"});
   const url = URL.createObjectURL(blob);
-  const a = document.createElement('a');
-  a.href = url; a.download = "informe_scrap.csv"; document.body.appendChild(a); a.click(); a.remove();
-});
-
-/* Accessibility: Enter key */
-document.addEventListener('keydown', (e) => {
-  if(e.key === 'Enter'){
-    const active = document.activeElement;
-    if([pieces,weight,scrap,price].includes(active)) calcBtn.click();
-    if(active === emailI) unlockBtn.click();
-  }
-});
+  const a = document.createElement("a");
+  a.href=url; a.download="informe_scrap.csv";
+  document.body.appendChild(a);
+  a.click();
+  a.remove();
+};
 </script>
 </body>
 </html>
