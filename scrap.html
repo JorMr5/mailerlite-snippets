@@ -1,0 +1,132 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <meta http-equiv="Content-Style-Type" content="text/css">
+  <title></title>
+  <meta name="Generator" content="Cocoa HTML Writer">
+  <meta name="CocoaVersion" content="2685.2">
+  <style type="text/css">
+    p.p1 {margin: 0.0px 0.0px 0.0px 0.0px; font: 12.0px Helvetica}
+    p.p2 {margin: 0.0px 0.0px 0.0px 0.0px; font: 12.0px Helvetica; min-height: 14.0px}
+  </style>
+</head>
+<body>
+<p class="p1">&lt;!doctype html&gt;</p>
+<p class="p1">&lt;html lang="es"&gt;</p>
+<p class="p1">&lt;head&gt;</p>
+<p class="p1">&lt;meta charset="utf-8"&gt;</p>
+<p class="p1">&lt;meta name="viewport" content="width=device-width,initial-scale=1"&gt;</p>
+<p class="p1">&lt;title&gt;Calculadora de Scrap — inyec.pro&lt;/title&gt;</p>
+<p class="p1">&lt;style&gt;</p>
+<p class="p1"><span class="Apple-converted-space">  </span>:root{--accent:#5cbcae;--bg:#0b0b0b;--card:#0f1720}</p>
+<p class="p1"><span class="Apple-converted-space">  </span>body{margin:0;font-family:Inter,system-ui,Segoe UI,Roboto,-apple-system;background:linear-gradient(180deg,#071014 0,#081216 100%);color:#e6eef0;display:flex;min-height:100vh;align-items:center;justify-content:center;padding:20px}</p>
+<p class="p1"><span class="Apple-converted-space">  </span>.card{width:100%;max-width:640px;background:#071017;border-radius:14px;padding:20px;box-shadow:0 10px 30px rgba(3,8,10,.6)}</p>
+<p class="p1"><span class="Apple-converted-space">  </span>h1{color:var(--accent);margin:0 0 8px;font-size:20px}</p>
+<p class="p1"><span class="Apple-converted-space">  </span>p.lead{margin:0 0 14px;color:#b9c7c4}</p>
+<p class="p1"><span class="Apple-converted-space">  </span>.grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}</p>
+<p class="p1"><span class="Apple-converted-space">  </span>label{display:block;font-size:13px;color:#cfe3df;margin-bottom:6px}</p>
+<p class="p1"><span class="Apple-converted-space">  </span>input{width:100%;padding:8px;border-radius:8px;border:1px solid #223136;background:#fff;color:#0b1212;font-size:15px;box-sizing:border-box}</p>
+<p class="p1"><span class="Apple-converted-space">  </span>.btn{display:inline-block;margin-top:10px;background:var(--accent);color:#fff;padding:10px 14px;border-radius:10px;border:0;font-weight:700;cursor:pointer}</p>
+<p class="p1"><span class="Apple-converted-space">  </span>.results{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:16px}</p>
+<p class="p1"><span class="Apple-converted-space">  </span>.card-res{background:#071718;border:1px solid rgba(92,188,174,0.06);padding:12px;border-radius:10px}</p>
+<p class="p1"><span class="Apple-converted-space">  </span>.label-res{font-size:13px;color:#9fbfb9}</p>
+<p class="p1"><span class="Apple-converted-space">  </span>.val{font-weight:800;font-size:18px;color:#e6f3f0;filter:blur(6px);transition:filter .35s}</p>
+<p class="p1"><span class="Apple-converted-space">  </span>.val.unblur{filter:none}</p>
+<p class="p1"><span class="Apple-converted-space">  </span>.email-gate{margin-top:14px;padding:12px;border-radius:10px;background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(0,0,0,0.03))}</p>
+<p class="p1"><span class="Apple-converted-space">  </span>.small{font-size:13px;color:#9fbfb9}</p>
+<p class="p1"><span class="Apple-converted-space">  </span>@media(max-width:520px){.grid{grid-template-columns:1fr}}</p>
+<p class="p1">&lt;/style&gt;</p>
+<p class="p1">&lt;/head&gt;</p>
+<p class="p1">&lt;body&gt;</p>
+<p class="p1"><span class="Apple-converted-space">  </span>&lt;div class="card" id="app"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;h1&gt;Calculadora de Coste de Scrap&lt;/h1&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;p class="lead"&gt;Introduce tus valores y desbloquea el coste real (hora/día/mes/año).&lt;/p&gt;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;div class="grid"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>&lt;div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;label for="piezas"&gt;Piezas / hora&lt;/label&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;input id="piezas" type="number" inputmode="numeric" /&gt;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>&lt;div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;label for="peso"&gt;Peso por pieza (g)&lt;/label&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;input id="peso" type="number" inputmode="numeric" /&gt;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>&lt;div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;label for="scrap"&gt;% Scrap&lt;/label&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;input id="scrap" type="number" inputmode="numeric" /&gt;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>&lt;div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;label for="kg"&gt;€/kg materia prima&lt;/label&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;input id="kg" type="number" step="0.01" inputmode="numeric" /&gt;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;/div&gt;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;button class="btn" id="btnCalc"&gt;Calcular&lt;/button&gt;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;div class="results" id="results"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>&lt;div class="card-res"&gt;&lt;div class="label-res"&gt;€ / Hora&lt;/div&gt;&lt;div id="rHora" class="val"&gt;—&lt;/div&gt;&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>&lt;div class="card-res"&gt;&lt;div class="label-res"&gt;€ / Día (8h)&lt;/div&gt;&lt;div id="rDia" class="val"&gt;—&lt;/div&gt;&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>&lt;div class="card-res"&gt;&lt;div class="label-res"&gt;€ / Mes (22d)&lt;/div&gt;&lt;div id="rMes" class="val"&gt;—&lt;/div&gt;&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>&lt;div class="card-res"&gt;&lt;div class="label-res"&gt;€ / Año&lt;/div&gt;&lt;div id="rAno" class="val"&gt;—&lt;/div&gt;&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;/div&gt;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;div class="email-gate" id="gate"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>&lt;div style="font-weight:700;margin-bottom:6px"&gt;🔒 Resultados bloqueados&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>&lt;div class="small"&gt;Introduce tu correo para desbloquear y recibir un informe.&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>&lt;div style="margin-top:8px"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;label class="small" for="email"&gt;Email&lt;/label&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;input id="email" type="email" placeholder="tu@empresa.com" /&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;button id="btnUnlock" class="btn" style="width:100%;margin-top:10px"&gt;Desbloquear&lt;/button&gt;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">  </span>&lt;/div&gt;</p>
+<p class="p2"><br></p>
+<p class="p1">&lt;script&gt;</p>
+<p class="p1">(function(){</p>
+<p class="p1"><span class="Apple-converted-space">  </span>const $ = id=&gt;document.getElementById(id);</p>
+<p class="p1"><span class="Apple-converted-space">  </span>let values = {h:0,d:0,m:0,a:0};</p>
+<p class="p1"><span class="Apple-converted-space">  </span>function calc(){</p>
+<p class="p1"><span class="Apple-converted-space">    </span>const p = parseFloat($('piezas').value), g = parseFloat($('peso').value),</p>
+<p class="p1"><span class="Apple-converted-space">          </span>s = parseFloat($('scrap').value)/100, e = parseFloat($('kg').value);</p>
+<p class="p1"><span class="Apple-converted-space">    </span>if([p,g,s,e].some(v=&gt;isNaN(v))){ alert('Completa todos los campos'); return; }</p>
+<p class="p1"><span class="Apple-converted-space">    </span>const h = p*s*(g/1000)*e;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>const d = h*8, m = d*22, a = m*12;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>values = {h,d,m,a};</p>
+<p class="p1"><span class="Apple-converted-space">    </span>// set placeholders (still blurred)</p>
+<p class="p1"><span class="Apple-converted-space">    </span>$('rHora').textContent = format(values.h); $('rDia').textContent = format(values.d);</p>
+<p class="p1"><span class="Apple-converted-space">    </span>$('rMes').textContent = format(values.m); $('rAno').textContent = format(values.a);</p>
+<p class="p1"><span class="Apple-converted-space">  </span>}</p>
+<p class="p1"><span class="Apple-converted-space">  </span>function format(v){ return Number(v).toLocaleString('es-ES',{style:'currency',currency:'EUR',maximumFractionDigits:2}); }</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">  </span>function animate(el, end){</p>
+<p class="p1"><span class="Apple-converted-space">    </span>const rawEnd = Number(end);</p>
+<p class="p1"><span class="Apple-converted-space">    </span>let i = 0;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>const steps = 50;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>const inc = rawEnd / steps;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>const interval = setInterval(()=&gt;{</p>
+<p class="p1"><span class="Apple-converted-space">      </span>i += inc;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>if(i &gt;= rawEnd){ i = rawEnd; clearInterval(interval); }</p>
+<p class="p1"><span class="Apple-converted-space">      </span>el.textContent = format(i);</p>
+<p class="p1"><span class="Apple-converted-space">    </span>}, 18);</p>
+<p class="p1"><span class="Apple-converted-space">  </span>}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">  </span>$('btnCalc').addEventListener('click', calc);</p>
+<p class="p1"><span class="Apple-converted-space">  </span>$('btnUnlock').addEventListener('click', function(){</p>
+<p class="p1"><span class="Apple-converted-space">    </span>const mail = $('email').value;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>if(!mail || mail.indexOf('@')&lt;0){ alert('Email no válido'); return; }</p>
+<p class="p1"><span class="Apple-converted-space">    </span>try{ localStorage.setItem('scrapEmail', mail); }catch(e){}</p>
+<p class="p1"><span class="Apple-converted-space">    </span>// reveal visual</p>
+<p class="p1"><span class="Apple-converted-space">    </span>document.querySelectorAll('.val').forEach(x=&gt;x.classList.add('unblur'));</p>
+<p class="p1"><span class="Apple-converted-space">    </span>document.getElementById('gate').style.display='none';</p>
+<p class="p1"><span class="Apple-converted-space">    </span>// animate numbers</p>
+<p class="p1"><span class="Apple-converted-space">    </span>animate($('rHora'), values.h); animate($('rDia'), values.d); animate($('rMes'), values.m); animate($('rAno'), values.a);</p>
+<p class="p1"><span class="Apple-converted-space">    </span>// opcional: abrir una petición para tu automatización (webhook) si la quieres</p>
+<p class="p1"><span class="Apple-converted-space">    </span>// fetch('https://inyec.pro/api/lead', {method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({email:mail,tool:'scrap',values})});</p>
+<p class="p1"><span class="Apple-converted-space">  </span>}, false);</p>
+<p class="p1">})();</p>
+<p class="p1">&lt;/script&gt;</p>
+<p class="p1">&lt;/body&gt;</p>
+<p class="p1">&lt;/html&gt;</p>
+</body>
+</html>
