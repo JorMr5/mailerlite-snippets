@@ -1,0 +1,182 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <meta http-equiv="Content-Style-Type" content="text/css">
+  <title></title>
+  <meta name="Generator" content="Cocoa HTML Writer">
+  <meta name="CocoaVersion" content="2685.2">
+  <style type="text/css">
+    p.p1 {margin: 0.0px 0.0px 0.0px 0.0px; -webkit-hyphens: auto; font: 16.0px Arial; color: #ffffff; -webkit-text-stroke: #ffffff}
+    p.p2 {margin: 0.0px 0.0px 0.0px 0.0px; -webkit-hyphens: auto; font: 16.0px Arial; color: #ffffff; -webkit-text-stroke: #ffffff; min-height: 18.0px}
+    span.s1 {font-kerning: none}
+  </style>
+</head>
+<body>
+<p class="p1"><span class="s1">&lt;!DOCTYPE html&gt;</span></p>
+<p class="p1"><span class="s1">&lt;html lang="es"&gt;</span></p>
+<p class="p1"><span class="s1">&lt;head&gt;</span></p>
+<p class="p1"><span class="s1">&lt;meta charset="UTF-8" /&gt;</span></p>
+<p class="p1"><span class="s1">&lt;meta name="viewport" content="width=device-width, initial-scale=1.0" /&gt;</span></p>
+<p class="p1"><span class="s1">&lt;title&gt;Calculadora de Scrap - inyec.pro&lt;/title&gt;</span></p>
+<p class="p2"><span class="s1"></span><br></p>
+<p class="p1"><span class="s1">&lt;style&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>body {</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>font-family: Arial, sans-serif;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>background: #111;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>color: #fff;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>padding: 20px;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>max-width: 500px;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>margin: auto;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>}</span></p>
+<p class="p2"><span class="s1"></span><br></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>h2 {</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>text-align: center;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>color: #5cbcae;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>margin-bottom: 10px;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>}</span></p>
+<p class="p2"><span class="s1"></span><br></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>p.sub {</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>text-align: center;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>font-size: 14px;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>margin-top: -5px;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>margin-bottom: 20px;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>}</span></p>
+<p class="p2"><span class="s1"></span><br></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>/* GRID 2x2 INPUTS */</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>.grid {</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>display: grid;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>grid-template-columns: 1fr 1fr;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>gap: 12px;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>margin-bottom: 20px;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>}</span></p>
+<p class="p2"><span class="s1"></span><br></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>label {</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>font-size: 13px;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>margin-bottom: 5px;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>display: block;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>opacity: 0.8;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>}</span></p>
+<p class="p2"><span class="s1"></span><br></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>input {</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>padding: 10px;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>border-radius: 6px;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>border: 1px solid #444;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>width: 100%;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>font-size: 16px;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>box-sizing: border-box;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>}</span></p>
+<p class="p2"><span class="s1"></span><br></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>button {</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>width: 100%;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>padding: 12px;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>background: #5cbcae;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>color: #fff;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>border: none;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>border-radius: 6px;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>font-size: 18px;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>cursor: pointer;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>margin-bottom: 25px;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>}</span></p>
+<p class="p2"><span class="s1"></span><br></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>/* Resultados */</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>.resultado {</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>background: #1b1b1b;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>padding: 15px;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>margin-bottom: 15px;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>border-radius: 6px;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>border: 1px solid #333;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>}</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>.resultado h3 {</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>font-size: 14px;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>margin: 0 0 5px 0;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>opacity: 0.8;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>font-weight: normal;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>}</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>.resultado .valor {</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>font-size: 20px;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>font-weight: bold;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>}</span></p>
+<p class="p1"><span class="s1">&lt;/style&gt;</span></p>
+<p class="p2"><span class="s1"></span><br></p>
+<p class="p1"><span class="s1">&lt;/head&gt;</span></p>
+<p class="p1"><span class="s1">&lt;body&gt;</span></p>
+<p class="p2"><span class="s1"></span><br></p>
+<p class="p1"><span class="s1">&lt;h2&gt;Calculadora de Scrap&lt;/h2&gt;</span></p>
+<p class="p1"><span class="s1">&lt;p class="sub"&gt;Descubre cuánto dinero pierdes realmente&lt;/p&gt;</span></p>
+<p class="p2"><span class="s1"></span><br></p>
+<p class="p1"><span class="s1">&lt;div class="grid"&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>&lt;div&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>&lt;label for="piezasHora"&gt;Piezas/hora&lt;/label&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>&lt;input id="piezasHora" type="number" placeholder="Ej: 120"&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>&lt;/div&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>&lt;div&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>&lt;label for="piezasDia"&gt;Horas/día&lt;/label&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>&lt;input id="piezasDia" type="number" placeholder="Ej: 8"&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>&lt;/div&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>&lt;div&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>&lt;label for="porcentaje"&gt;Scrap (%)&lt;/label&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>&lt;input id="porcentaje" type="number" placeholder="Ej: 3"&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>&lt;/div&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>&lt;div&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>&lt;label for="costeKg"&gt;€/kg&lt;/label&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>&lt;input id="costeKg" type="number" placeholder="Ej: 2.5"&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>&lt;/div&gt;</span></p>
+<p class="p1"><span class="s1">&lt;/div&gt;</span></p>
+<p class="p2"><span class="s1"></span><br></p>
+<p class="p1"><span class="s1">&lt;button onclick="calcular()"&gt;Calcular&lt;/button&gt;</span></p>
+<p class="p2"><span class="s1"></span><br></p>
+<p class="p1"><span class="s1">&lt;div id="resultados"&gt;&lt;/div&gt;</span></p>
+<p class="p2"><span class="s1"></span><br></p>
+<p class="p1"><span class="s1">&lt;script&gt;</span></p>
+<p class="p1"><span class="s1">function calcular() {</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>const piezasHora = Number(document.getElementById("piezasHora").value);</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>const horasDia = Number(document.getElementById("piezasDia").value);</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>const scrap = Number(document.getElementById("porcentaje").value) / 100;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>const costeKg = Number(document.getElementById("costeKg").value);</span></p>
+<p class="p2"><span class="s1"></span><br></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>if (!piezasHora || !horasDia || !scrap || !costeKg) {</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>alert("Rellena todos los campos por favor.");</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>return;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>}</span></p>
+<p class="p2"><span class="s1"></span><br></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>// Cálculos</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>const scrapHora = piezasHora * scrap;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>const scrapDia = scrapHora * horasDia;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>const scrapMes = scrapDia * 30;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>const scrapAno = scrapMes * 12;</span></p>
+<p class="p2"><span class="s1"></span><br></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>const costeHora = scrapHora * costeKg;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>const costeDia = scrapDia * costeKg;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>const costeMes = scrapMes * costeKg;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>const costeAno = scrapAno * costeKg;</span></p>
+<p class="p2"><span class="s1"></span><br></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>// Mostrar resultados</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>document.getElementById("resultados").innerHTML = `</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>&lt;div class="resultado"&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>&lt;h3&gt;Coste por hora&lt;/h3&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>&lt;div class="valor"&gt;${costeHora.toFixed(2)} €&lt;/div&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>&lt;/div&gt;</span></p>
+<p class="p2"><span class="s1"></span><br></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>&lt;div class="resultado"&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>&lt;h3&gt;Coste por día&lt;/h3&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>&lt;div class="valor"&gt;${costeDia.toFixed(2)} €&lt;/div&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>&lt;/div&gt;</span></p>
+<p class="p2"><span class="s1"></span><br></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>&lt;div class="resultado"&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>&lt;h3&gt;Coste por mes&lt;/h3&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>&lt;div class="valor"&gt;${costeMes.toFixed(2)} €&lt;/div&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>&lt;/div&gt;</span></p>
+<p class="p2"><span class="s1"></span><br></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>&lt;div class="resultado"&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>&lt;h3&gt;Coste por año&lt;/h3&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>&lt;div class="valor"&gt;${costeAno.toFixed(2)} €&lt;/div&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>&lt;/div&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>`;</span></p>
+<p class="p1"><span class="s1">}</span></p>
+<p class="p1"><span class="s1">&lt;/script&gt;</span></p>
+<p class="p2"><span class="s1"></span><br></p>
+<p class="p1"><span class="s1">&lt;/body&gt;</span></p>
+<p class="p1"><span class="s1">&lt;/html&gt;</span></p>
+</body>
+</html>
