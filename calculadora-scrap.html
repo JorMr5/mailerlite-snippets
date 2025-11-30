@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Calculadora de Scrap - inyec.pro</title>
+
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        background: #111;
+        color: #fff;
+        padding: 20px;
+        max-width: 500px;
+        margin: auto;
+    }
+
+    h2 {
+        text-align: center;
+        color: #5cbcae;
+        margin-bottom: 10px;
+    }
+
+    p.sub {
+        text-align: center;
+        font-size: 14px;
+        margin-top: -5px;
+        margin-bottom: 20px;
+    }
+
+    /* GRID 2x2 INPUTS */
+    .grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 12px;
+        margin-bottom: 20px;
+    }
+
+    label {
+        font-size: 13px;
+        margin-bottom: 5px;
+        display: block;
+        opacity: 0.8;
+    }
+
+    input {
+        padding: 10px;
+        border-radius: 6px;
+        border: 1px solid #444;
+        width: 100%;
+        font-size: 16px;
+        box-sizing: border-box;
+    }
+
+    button {
+        width: 100%;
+        padding: 12px;
+        background: #5cbcae;
+        color: #fff;
+        border: none;
+        border-radius: 6px;
+        font-size: 18px;
+        cursor: pointer;
+        margin-bottom: 25px;
+    }
+
+    /* Resultados */
+    .resultado {
+        background: #1b1b1b;
+        padding: 15px;
+        margin-bottom: 15px;
+        border-radius: 6px;
+        border: 1px solid #333;
+    }
+    .resultado h3 {
+        font-size: 14px;
+        margin: 0 0 5px 0;
+        opacity: 0.8;
+        font-weight: normal;
+    }
+    .resultado .valor {
+        font-size: 20px;
+        font-weight: bold;
+    }
+</style>
+
+</head>
+<body>
+
+<h2>Calculadora de Scrap</h2>
+<p class="sub">Descubre cuánto dinero pierdes realmente</p>
+
+<div class="grid">
+    <div>
+        <label for="piezasHora">Piezas/hora</label>
+        <input id="piezasHora" type="number" placeholder="Ej: 120">
+    </div>
+    <div>
+        <label for="piezasDia">Horas/día</label>
+        <input id="piezasDia" type="number" placeholder="Ej: 8">
+    </div>
+    <div>
+        <label for="porcentaje">Scrap (%)</label>
+        <input id="porcentaje" type="number" placeholder="Ej: 3">
+    </div>
+    <div>
+        <label for="costeKg">€/kg</label>
+        <input id="costeKg" type="number" placeholder="Ej: 2.5">
+    </div>
+</div>
+
+<button onclick="calcular()">Calcular</button>
+
+<div id="resultados"></div>
+
+<script>
+function calcular() {
+    const piezasHora = Number(document.getElementById("piezasHora").value);
+    const horasDia = Number(document.getElementById("piezasDia").value);
+    const scrap = Number(document.getElementById("porcentaje").value) / 100;
+    const costeKg = Number(document.getElementById("costeKg").value);
+
+    if (!piezasHora || !horasDia || !scrap || !costeKg) {
+        alert("Rellena todos los campos por favor.");
+        return;
+    }
+
+    // Cálculos
+    const scrapHora = piezasHora * scrap;
+    const scrapDia = scrapHora * horasDia;
+    const scrapMes = scrapDia * 30;
+    const scrapAno = scrapMes * 12;
+
+    const costeHora = scrapHora * costeKg;
+    const costeDia = scrapDia * costeKg;
+    const costeMes = scrapMes * costeKg;
+    const costeAno = scrapAno * costeKg;
+
+    // Mostrar resultados
+    document.getElementById("resultados").innerHTML = `
+        <div class="resultado">
+            <h3>Coste por hora</h3>
+            <div class="valor">${costeHora.toFixed(2)} €</div>
+        </div>
+
+        <div class="resultado">
+            <h3>Coste por día</h3>
+            <div class="valor">${costeDia.toFixed(2)} €</div>
+        </div>
+
+        <div class="resultado">
+            <h3>Coste por mes</h3>
+            <div class="valor">${costeMes.toFixed(2)} €</div>
+        </div>
+
+        <div class="resultado">
+            <h3>Coste por año</h3>
+            <div class="valor">${costeAno.toFixed(2)} €</div>
+        </div>
+    `;
+}
+</script>
+
+</body>
+</html>
