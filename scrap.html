@@ -1,270 +1,255 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="es">
 <head>
-<meta charset="utf-8" />
-<meta name="viewport" content="width=device-width,initial-scale=1" />
-<title>Calculadora de Coste de Scrap — inyec.pro</title>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Calculadora de Scrap - inyec.pro</title>
 
-<!-- FUENTES: usa sistema para que cargue rápido -->
 <style>
-:root{
-  --bg:#0b0f10;
-  --card:#071318;
-  --muted:#aebfbb;
-  --accent:#5cbcae;
-  --glass: rgba(255,255,255,0.03);
-  --glass-2: rgba(92,188,174,0.06);
-}
-*{box-sizing:border-box}
-body{margin:0;min-height:100vh;display:flex;align-items:center;justify-content:center;background:linear-gradient(180deg,#071118 0,#071016 100%);font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,'Helvetica Neue',Arial;color:#eaf6f2;padding:28px}
-.container{width:100%;max-width:900px;margin:auto;}
-.card{background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(0,0,0,0.04));border-radius:14px;padding:22px;box-shadow:0 12px 30px rgba(2,6,8,0.6);border:1px solid rgba(255,255,255,0.02)}
-.header{display:flex;align-items:center;gap:16px}
-.logo{
-  width:56px;height:56px;border-radius:10px;background:linear-gradient(135deg,var(--accent),#3fb3a0);display:flex;align-items:center;justify-content:center;font-weight:800;color:#062a25;font-size:20px;box-shadow:0 6px 18px rgba(92,188,174,0.08)
-}
-.title{flex:1}
-.title h1{margin:0;font-size:20px;color:var(--accent)}
-.title p{margin:4px 0 0 0;color:var(--muted);font-size:13px}
+    body {
+        font-family: Arial, sans-serif;
+        background: #000000;
+        color: #fff;
+        padding: 20px;
+        max-width: 550px;
+        margin: auto;
+    }
 
-/* inputs grid */
-.inputs-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:14px;margin-top:18px}
-.field{display:flex;flex-direction:column}
-label{font-size:13px;color:var(--muted);margin-bottom:6px;font-weight:600}
-input[type=number],input[type=email]{padding:10px 12px;border-radius:10px;border:1px solid rgba(255,255,255,0.06);background:#fff;color:#0b1212;font-size:15px}
-.small{font-size:12px;color:#9fbfb9;margin-top:8px}
+    h2 {
+        text-align: center;
+        color: #5cbcae;
+        margin-bottom: 10px;
+        font-size: 28px;
+    }
 
-/* buttons */
-.row-actions{display:flex;gap:12px;align-items:center;margin-top:14px}
-.btn{background:var(--accent);color:#042623;padding:11px 14px;border-radius:10px;border:none;font-weight:800;cursor:pointer;flex:1;box-shadow:0 8px 18px rgba(92,188,174,0.08)}
-.btn.ghost{background:transparent;border:1px solid rgba(255,255,255,0.04);color:var(--muted);flex:0 0 auto;padding:10px 12px}
+    p.sub {
+        text-align: center;
+        font-size: 14px;
+        margin-top: -5px;
+        margin-bottom: 25px;
+        opacity: 0.8;
+    }
 
-/* results grid */
-.results-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:12px;margin-top:18px}
-.result-card{background:linear-gradient(180deg, rgba(255,255,255,0.012), rgba(0,0,0,0.02));border:1px solid rgba(255,255,255,0.03);padding:14px;border-radius:12px;min-height:72px;position:relative;overflow:hidden}
-.result-card .label{font-size:13px;color:var(--muted)}
-.result-card .value{font-size:20px;font-weight:800;margin-top:8px;color:#eaf6f2;filter:blur(6px);transition:filter .35s, transform .25s}
-.result-card .value.unblur{filter:none;transform:translateY(0)}
-.lock-overlay{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;pointer-events:none}
+    /* GRID 2x2 */
+    .grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 15px;
+        margin-bottom: 20px;
+    }
 
-/* email gate */
-.email-gate{margin-top:18px;padding:12px;border-radius:12px;background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(0,0,0,0.03));border:1px solid rgba(92,188,174,0.04);display:flex;gap:12px;align-items:center}
-.email-gate .info{flex:1}
-.email-gate input{flex:1;padding:10px;border-radius:8px;border:1px solid rgba(255,255,255,0.06)}
+    label {
+        font-size: 13px;
+        margin-bottom: 6px;
+        opacity: 0.85;
+        display: block;
+    }
 
-/* small responsive */
-@media (max-width:720px){
-  .inputs-grid{grid-template-columns:1fr}
-  .results-grid{grid-template-columns:1fr}
-  .header{gap:10px}
-  .logo{width:48px;height:48px}
-}
+    input {
+        padding: 10px;
+        border-radius: 6px;
+        border: 1px solid #333;
+        background: #111;
+        color: #fff;
+        width: 100%;
+        font-size: 16px;
+        box-sizing: border-box;
+    }
 
-.footer-note{margin-top:12px;font-size:12px;color:#93bfb2}
+    button {
+        width: 100%;
+        padding: 14px;
+        background: #5cbcae;
+        color: #000;
+        border: none;
+        border-radius: 6px;
+        font-size: 18px;
+        cursor: pointer;
+        margin-bottom: 25px;
+        font-weight: bold;
+    }
+
+    button:hover { opacity: 0.9; }
+
+    /* Resultados */
+    .resultados-wrapper {
+        filter: blur(5px);
+        pointer-events: none;
+        transition: all 0.4s ease;
+    }
+
+    .resultado {
+        background: #0d0d0d;
+        padding: 18px;
+        margin-bottom: 15px;
+        border-radius: 6px;
+        border: 1px solid #2a2a2a;
+    }
+
+    .resultado h3 {
+        font-size: 14px;
+        margin: 0 0 4px 0;
+        opacity: 0.8;
+        font-weight: normal;
+    }
+
+    .resultado .valor {
+        font-size: 22px;
+        font-weight: bold;
+        color: #5cbcae;
+    }
+
+    /* Bloque de desbloqueo */
+    .unlock-box {
+        background: #0f0f0f;
+        border: 1px solid #333;
+        padding: 18px;
+        border-radius: 6px;
+        margin-top: 25px;
+    }
+
+    .unlock-box label {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        font-size: 12px;
+        opacity: 0.85;
+    }
+
+    .unlock-box input[type="checkbox"] {
+        width: 16px;
+        height: 16px;
+    }
+
+    .email-input {
+        margin-bottom: 12px;
+        margin-top: 5px;
+    }
+
 </style>
 </head>
 <body>
-<div class="container">
-  <div class="card" role="application" aria-label="Calculadora de Scrap">
-    <div class="header">
-      <div class="logo">iny</div>
-      <div class="title">
-        <h1>Calculadora de Coste de Scrap</h1>
-        <p>Introduce los datos reales de tu línea y descubre el impacto económico.</p>
-      </div>
-      <div style="text-align:right;font-size:13px;color:var(--muted);min-width:90px">members.inyec.pro</div>
+
+<h2>Calculadora de Scrap</h2>
+<p class="sub">Descubre cuánto dinero pierdes por desperdicio</p>
+
+<div class="grid">
+    <div>
+        <label>Piezas/hora</label>
+        <input id="piezasHora" type="number" placeholder="Ej: 120">
     </div>
-
-    <form id="calcForm" onsubmit="return false;" aria-hidden="false">
-      <div class="inputs-grid" role="group" aria-label="Entradas de calculadora">
-        <div class="field">
-          <label for="piecesHour">Piezas / hora</label>
-          <input id="piecesHour" type="number" inputmode="numeric" placeholder="Ej. 120" />
-          <div class="small">Producción por máquina</div>
-        </div>
-
-        <div class="field">
-          <label for="weightGrams">Peso por pieza (g)</label>
-          <input id="weightGrams" type="number" inputmode="numeric" placeholder="Ej. 10" />
-          <div class="small">Valor en gramos</div>
-        </div>
-
-        <div class="field">
-          <label for="scrapPct">% Scrap</label>
-          <input id="scrapPct" type="number" inputmode="numeric" placeholder="Ej. 2" />
-          <div class="small">Porcentaje de piezas defectuosas</div>
-        </div>
-
-        <div class="field">
-          <label for="priceKg">€/kg materia prima</label>
-          <input id="priceKg" type="number" inputmode="numeric" step="0.01" placeholder="Ej. 2.50" />
-          <div class="small">Precio material</div>
-        </div>
-      </div>
-
-      <div class="row-actions">
-        <button class="btn" id="btnCalculate" type="button">Calcular</button>
-        <button class="btn ghost" id="btnReset" type="button">Reset</button>
-      </div>
-    </form>
-
-    <div class="results-grid" aria-live="polite" aria-atomic="true">
-      <div class="result-card" id="cardHour">
-        <div class="label">€ / Hora</div>
-        <div id="valHour" class="value">—</div>
-        <div class="lock-overlay" id="overlayHour"></div>
-      </div>
-
-      <div class="result-card" id="cardDay">
-        <div class="label">€ / Día (8h)</div>
-        <div id="valDay" class="value">—</div>
-        <div class="lock-overlay" id="overlayDay"></div>
-      </div>
-
-      <div class="result-card" id="cardMonth">
-        <div class="label">€ / Mes (22d)</div>
-        <div id="valMonth" class="value">—</div>
-        <div class="lock-overlay" id="overlayMonth"></div>
-      </div>
-
-      <div class="result-card" id="cardYear">
-        <div class="label">€ / Año</div>
-        <div id="valYear" class="value">—</div>
-        <div class="lock-overlay" id="overlayYear"></div>
-      </div>
+    <div>
+        <label>Peso por pieza (g)</label>
+        <input id="pesoPieza" type="number" placeholder="Ej: 34">
     </div>
-
-    <div class="email-gate" id="emailGate" role="region" aria-label="Desbloquear resultados">
-      <div class="info">
-        <div style="font-weight:700;color:#eaf6f2">🔒 Resultados bloqueados</div>
-        <div class="small">Introduce tu correo para desbloquear los resultados y recibir un informe con recomendaciones.</div>
-      </div>
-      <input id="userEmail" type="email" placeholder="tu@empresa.com" aria-label="Email para desbloquear" />
-      <button class="btn" id="btnUnlock">Desbloquear</button>
+    <div>
+        <label>Scrap (%)</label>
+        <input id="porcentaje" type="number" placeholder="Ej: 3">
     </div>
-
-    <div class="footer-note">Opcional: tras desbloquear, integraremos la captura en MailerLite o webhooks.</div>
-  </div>
+    <div>
+        <label>€/kg</label>
+        <input id="costeKg" type="number" placeholder="Ej: 2.5">
+    </div>
 </div>
 
+<button onclick="calcular()">Calcular</button>
+
+<div id="resultados" class="resultados-wrapper"></div>
+
+<div class="unlock-box">
+    <input class="email-input" id="email" type="email" placeholder="Introduce tu email para desbloquear">
+
+    <label>
+        <input type="checkbox" id="consent">
+        Acepto que mi correo se incluya en la lista de inyec.pro
+    </label>
+
+    <button onclick="desbloquear()">Desbloquear resultados</button>
+</div>
+
+<!-- FORMULARIO INVISIBLE DE MAILERLITE -->
+<form id="ml-form" action="https://assets.mailerlite.com/jsonp/172525021142451820/forms/submit" method="POST" style="display:none;">
+    <input type="hidden" name="email" id="ml-email">
+</form>
+
 <script>
-/* Variables DOM */
-const piecesHour = document.getElementById('piecesHour');
-const weightGrams = document.getElementById('weightGrams');
-const scrapPct = document.getElementById('scrapPct');
-const priceKg = document.getElementById('priceKg');
+function calcular() {
+    const piezasHora = Number(document.getElementById("piezasHora").value);
+    const peso = Number(document.getElementById("pesoPieza").value);
+    const scrap = Number(document.getElementById("porcentaje").value) / 100;
+    const costeKg = Number(document.getElementById("costeKg").value);
 
-const valHour = document.getElementById('valHour');
-const valDay = document.getElementById('valDay');
-const valMonth = document.getElementById('valMonth');
-const valYear = document.getElementById('valYear');
-
-const btnCalc = document.getElementById('btnCalculate');
-const btnReset = document.getElementById('btnReset');
-const btnUnlock = document.getElementById('btnUnlock');
-const emailGate = document.getElementById('emailGate');
-const userEmail = document.getElementById('userEmail');
-
-let computed = { h:0, d:0, m:0, y:0 };
-
-/* Formulas: coste€/h = piezas_hora * (scrap%/100) * (peso_g/1000) * €/kg */
-function computeValues(){
-  const ph = Number(piecesHour.value);
-  const wg = Number(weightGrams.value);
-  const sp = Number(scrapPct.value) / 100;
-  const pk = Number(priceKg.value);
-
-  if (![ph,wg,sp,pk].every(v => Number.isFinite(v) && v > 0)) {
-    return null;
-  }
-
-  const costPerHour = ph * sp * (wg / 1000) * pk;
-  const costPerDay = costPerHour * 8;
-  const costPerMonth = costPerDay * 22;
-  const costPerYear = costPerMonth * 12;
-
-  return { h: costPerHour, d: costPerDay, m: costPerMonth, y: costPerYear };
-}
-
-function formatEUR(n){
-  return n.toLocaleString('es-ES',{style:'currency',currency:'EUR',maximumFractionDigits:2});
-}
-
-/* Counter animation */
-function animateValue(el, end, duration = 900){
-  const start = 0;
-  const range = end - start;
-  const steps = Math.max(12, Math.round(duration / 20));
-  let current = 0;
-  let step = 0;
-  const timer = setInterval(() => {
-    step++;
-    const progress = step / steps;
-    const eased = 1 - Math.pow(1 - progress, 3); // easeOutCubic
-    current = start + range * eased;
-    el.textContent = formatEUR(current);
-    if (step >= steps) {
-      clearInterval(timer);
-      el.textContent = formatEUR(end);
+    if (!piezasHora || !peso || !scrap || !costeKg) {
+        alert("Rellena todos los campos por favor.");
+        return;
     }
-  }, 20);
+
+    const pesoKg = peso / 1000;
+
+    const scrapHora = piezasHora * pesoKg * scrap;
+    const scrapDia = scrapHora * 24;
+    const scrapMes = scrapDia * 30;
+    const scrapAno = scrapMes * 12;
+
+    const costeHora = scrapHora * costeKg;
+    const costeDia = scrapDia * costeKg;
+    const costeMes = scrapMes * costeKg;
+    const costeAno = scrapAno * costeKg;
+
+    document.getElementById("resultados").innerHTML = `
+        <div class="resultado"><h3>Coste por hora</h3><div id="h" class="valor">0 €</div></div>
+        <div class="resultado"><h3>Coste por día (24h)</h3><div id="d" class="valor">0 €</div></div>
+        <div class="resultado"><h3>Coste por mes</h3><div id="m" class="valor">0 €</div></div>
+        <div class="resultado"><h3>Coste por año</h3><div id="a" class="valor">0 €</div></div>
+    `;
+
+    window.valores = { costeHora, costeDia, costeMes, costeAno };
 }
 
-/* Show blurred placeholders (computed but blurred) */
-function showPlaceholders(vals){
-  if(!vals) return;
-  valHour.textContent = formatEUR(vals.h);
-  valDay.textContent = formatEUR(vals.d);
-  valMonth.textContent = formatEUR(vals.m);
-  valYear.textContent = formatEUR(vals.y);
+function animar() {
+    const { costeHora, costeDia, costeMes, costeAno } = window.valores;
+    const targets = [
+        ["h", costeHora],
+        ["d", costeDia],
+        ["m", costeMes],
+        ["a", costeAno]
+    ];
 
-  // keep blurred until unlock
-  [valHour,valDay,valMonth,valYear].forEach(v => v.classList.remove('unblur'));
+    targets.forEach(([id, final]) => {
+        let val = 0;
+        const step = final / 45;
+        const el = document.getElementById(id);
+
+        const interval = setInterval(() => {
+            val += step;
+            el.innerText = val.toFixed(2) + " €";
+            if (val >= final) {
+                clearInterval(interval);
+                el.innerText = final.toFixed(2) + " €";
+            }
+        }, 20);
+    });
 }
 
-/* Unlock: animate and reveal */
-function unlockAndAnimate(){
-  const vals = computed;
-  if(!vals) return;
-  [valHour,valDay,valMonth,valYear].forEach(v => v.classList.add('unblur')); // remove blur visually
-  animateValue(valHour, vals.h, 900);
-  animateValue(valDay, vals.d, 1000);
-  animateValue(valMonth, vals.m, 1200);
-  animateValue(valYear, vals.y, 1400);
+function desbloquear() {
+    const email = document.getElementById("email").value;
+    const consent = document.getElementById("consent").checked;
+
+    if (!email) return alert("Introduce tu email.");
+    if (!consent) return alert("Debes aceptar el consentimiento.");
+
+    // Enviar email al formulario oculto de MailerLite
+    document.getElementById("ml-email").value = email;
+    document.getElementById("ml-form").submit();
+
+    // Desbloqueo visual
+    const wrapper = document.getElementById("resultados");
+    wrapper.style.filter = "blur(0px)";
+    wrapper.style.pointerEvents = "auto";
+
+    animar();
 }
-
-/* Events */
-btnCalc.addEventListener('click', () => {
-  const vals = computeValues();
-  if(!vals){ alert('Rellena correctamente todos los campos (valores mayores que 0).'); return; }
-  computed = vals;
-  showPlaceholders(vals);
-});
-
-btnReset.addEventListener('click', () => {
-  piecesHour.value = '';
-  weightGrams.value = '';
-  scrapPct.value = '';
-  priceKg.value = '';
-  computed = { h:0, d:0, m:0, y:0 };
-  [valHour,valDay,valMonth,valYear].forEach(v => { v.textContent = '—'; v.classList.remove('unblur'); });
-  emailGate.style.display = '';
-});
-
-btnUnlock.addEventListener('click', () => {
-  const mail = (userEmail.value || '').trim();
-  if(!mail || mail.indexOf('@') < 0){ alert('Introduce un email válido.'); return; }
-  // opcional: aquí puedes enviar el email a tu API / MailerLite webhook por fetch
-  try { localStorage.setItem('inyec_scrap_email', mail); } catch(e){}
-  unlockAndAnimate();
-  emailGate.style.display = 'none';
-});
-
-/* Accessibility: press Enter to calculate when in an input */
-['piecesHour','weightGrams','scrapPct','priceKg','userEmail'].forEach(id=>{
-  const el = document.getElementById(id);
-  if(el) el.addEventListener('keydown', e => { if(e.key === 'Enter') btnCalc.click(); });
-});
 </script>
+
 </body>
 </html>
