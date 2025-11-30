@@ -16,10 +16,17 @@
   --card-border: rgba(92,188,174,0.18);
 }
 *{box-sizing:border-box}
-html,body{height:100%}
-body{
-  margin:0;background:var(--bg);font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,Arial;color:var(--text);
-  -webkit-font-smoothing:antialiased;padding:26px;display:flex;align-items:center;justify-content:center;
+
+/* CAMBIO 1: Quitamos height:100%, overflow hidden y el flex de centrado vertical */
+html,body{
+    min-height: 100vh; /* Para que el fondo cubra todo */
+    margin:0;
+    padding: 0; /* El padding lo moveremos al wrap para medir mejor */
+    background:var(--bg);
+    font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,Arial;
+    color:var(--text);
+    -webkit-font-smoothing:antialiased;
+    overflow: hidden; /* Opcional, pero mejor dejar que el iframe decida */
 }
 
 /* subtle grid background */
@@ -28,8 +35,15 @@ body{
   background-size:44px 44px,44px 44px;opacity:0.06;
 }
 
-/* container */
-.wrap{width:100%;max-width:980px;z-index:1}
+/* CAMBIO 2: Padding en el contenedor principal para que el script mida bien la altura total */
+.wrap{
+    width:100%;
+    max-width:980px;
+    z-index:1;
+    margin: 0 auto;
+    padding: 26px; /* Padding movido aquí desde el body */
+}
+
 .shell{border-radius:14px;padding:20px;background:linear-gradient(180deg, rgba(255,255,255,0.012), rgba(0,0,0,0.06));border:1px solid rgba(255,255,255,0.02);box-shadow:0 20px 50px rgba(0,0,0,0.7);display:grid;gap:18px}
 
 /* header */
@@ -56,8 +70,8 @@ body{
 
 /* email gate */
 .email-gate{margin-top:12px;padding:12px;border-radius:10px;border:1px solid rgba(255,255,255,0.03);background:linear-gradient(180deg, rgba(255,255,255,0.015), rgba(0,0,0,0.04))}
-.email-row{display:flex;gap:10px;align-items:center}
-.email-row input{flex:1;padding:12px;border-radius:8px;border:1px solid rgba(255,255,255,0.03);background:#010202;color:var(--text);font-size:16px}
+.email-row{display:flex;gap:10px;align-items:center; flex-wrap: wrap;} /* CAMBIO 3: wrap permitido */
+.email-row input{flex:1;padding:12px;border-radius:8px;border:1px solid rgba(255,255,255,0.03);background:#010202;color:var(--text);font-size:16px; min-width: 180px;}
 .consent{display:flex;gap:10px;align-items:flex-start;margin-top:8px;color:var(--muted);font-size:13px}
 
 /* results */
@@ -92,42 +106,24 @@ body{
   transition:filter .35s ease,opacity .35s ease;
 }
 
-/* responsive */
+/* responsive adjustments */
 @media (max-width:900px){.area{grid-template-columns:1fr}.results-grid{grid-template-columns:1fr 1fr}}
 @media (max-width:520px){.inputs-grid{grid-template-columns:1fr}.title{font-size:20px}}
 
-html, body {
-  overflow:hidden;
-}
-
-  /* Ajuste real para móvil dentro de iframe */
+/* CAMBIO 4: Reglas específicas para pantallas muy pequeñas (móvil iframe) */
 @media (max-width: 620px) {
-    .results-grid {
-        grid-template-columns: 1fr !important;
-        gap: 12px;
-    }
-
-    .inputs-grid {
-        grid-template-columns: 1fr !important;
-    }
-
-    .area {
-        grid-template-columns: 1fr !important;
-    }
-
-    .card {
-        padding: 14px;
-    }
-
-    .value {
-        font-size: 22px;
-    }
-
-    .label {
-        font-size: 12px;
-    }
+    .results-grid { grid-template-columns: 1fr !important; gap: 12px; }
+    .inputs-grid { grid-template-columns: 1fr !important; }
+    .area { grid-template-columns: 1fr !important; }
+    .card { padding: 14px; }
+    .value { font-size: 22px; }
+    .label { font-size: 12px; }
+    /* Apilar botón de desbloqueo en móvil */
+    .email-row { display: block; }
+    .email-row input { width: 100%; margin-bottom: 10px; }
+    .email-row button { width: 100%; }
+    .wrap { padding: 14px; } /* Reducir padding en móvil para ganar espacio */
 }
-
 </style>
 </head>
 <body>
@@ -370,21 +366,29 @@ document.addEventListener('keydown', (e)=>{
 
 <script>
 function sendHeight() {
-    const height = document.documentElement.scrollHeight;
-    parent.postMessage(
-        { type: "SCRAP_CALC_RESIZE", height: height },
-        "*"
-    );
+    // Medimos el wrapper principal que tiene el padding y el contenido
+    const wrap = document.querySelector('.wrap');
+    if(wrap) {
+        // Altura del contenido + un pequeño buffer por seguridad
+        const height = wrap.offsetHeight; 
+        parent.postMessage(
+            { type: "SCRAP_CALC_RESIZE", height: height },
+            "*"
+        );
+    }
 }
 
-// Enviar altura inicial
+// Enviar altura al cargar
 window.addEventListener("load", sendHeight);
 
-// Recalcular si cambia el contenido
-new ResizeObserver(sendHeight).observe(document.body);
+// Detectar cambios en el tamaño del wrapper específicamente
+const resizeObserver = new ResizeObserver(sendHeight);
+const wrapEl = document.querySelector('.wrap');
+if(wrapEl) resizeObserver.observe(wrapEl);
 
-// Fallback cada 500ms por si algún navegador bloquea el observer
-setInterval(sendHeight, 500);
+// Fallback extra por si las imágenes o fuentes cargan tarde
+setTimeout(sendHeight, 1000);
+window.addEventListener('resize', sendHeight);
 </script>
 
 </body>
