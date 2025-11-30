@@ -367,5 +367,25 @@ document.addEventListener('keydown', (e)=>{
   }
 });
 </script>
+
+<script>
+function sendHeight() {
+    const height = document.documentElement.scrollHeight;
+    parent.postMessage(
+        { type: "SCRAP_CALC_RESIZE", height: height },
+        "*"
+    );
+}
+
+// Enviar altura inicial
+window.addEventListener("load", sendHeight);
+
+// Recalcular si cambia el contenido
+new ResizeObserver(sendHeight).observe(document.body);
+
+// Fallback cada 500ms por si algún navegador bloquea el observer
+setInterval(sendHeight, 500);
+</script>
+
 </body>
 </html>
